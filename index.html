@@ -367,10 +367,14 @@
         <h3>عايز تعرف أول ما ينزل كورس الإكسيل؟</h3>
         <p>سيب إيميلك وهبعتلك رسالة واحدة بس لما المحتوى يجهز، من غير إزعاج.</p>
       </div>
-      <form class="notify-form" onsubmit="event.preventDefault(); this.querySelector('button').innerText='تمام، هتوصلك رسالة ✓';">
-        <input type="email" placeholder="بريدك الإلكتروني" required>
+      <form class="notify-form"
+            action="https://docs.google.com/forms/d/e/1FAIpQLSfVzOJxFBfuq-9CyRRgjRvGja9-RGT5j_f6RFNrSjaQLdARaQ/formResponse"
+            method="POST" target="hidden_iframe"
+            onsubmit="this.querySelector('button').innerText='تمام، هتوصلك رسالة ✓'; this.querySelector('button').disabled=true;">
+        <input type="email" name="entry.923282077" placeholder="بريدك الإلكتروني" required>
         <button type="submit">أبلغني</button>
       </form>
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
     </div>
   </div>
 </section>
