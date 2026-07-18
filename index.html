@@ -171,7 +171,10 @@
   .course-meta{ display:flex; justify-content:space-between; align-items:center; margin-top: 16px; padding-top:16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-dim); }
   .course-card.featured{ border-color: var(--border-strong); background: linear-gradient(160deg, var(--surface-2), var(--surface)); position: relative; }
   .course-card.featured::before{ content:'المسار الأساسي'; position:absolute; top:14px; left:14px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 100px; z-index: 2; }
-  .track-tag{ display:inline-block; font-size: 11px; font-weight: 700; color: var(--accent-deep); background: var(--accent-soft); border: 1px solid var(--border-strong); padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; color: var(--accent); }
+  .track-tag{ display:inline-block; font-size: 11px; font-weight: 700; background: var(--accent-soft); border: 1px solid var(--border-strong); padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; color: var(--accent); }
+  .course-card.locked{ opacity: 0.55; }
+  .course-card.locked .course-thumb{ filter: grayscale(0.4); }
+  .lock-badge{ position:absolute; top:14px; left:14px; background: var(--bg-soft); color: var(--text-muted); border: 1px solid var(--border-strong); font-size: 11px; font-weight:700; padding: 5px 12px; border-radius: 100px; display:flex; align-items:center; gap:5px; z-index:2; }
 
   .notify-box{
     margin-top: 54px; background: var(--surface); border: 1px solid var(--border-strong);
@@ -248,13 +251,13 @@
 
 <header>
   <div class="nav">
-    <div class="logo">
+    <a href="index.html" class="logo" style="cursor:pointer;">
       <div class="mark">AI</div>
       <div class="name">Ahmed<span>.</span>Ibrahem</div>
-    </div>
+    </a>
     <nav class="nav-links">
       <a href="#about">نبذة عني</a>
-      <a href="#courses">الكورسات</a>
+      <a href="courses.html">كل الكورسات</a>
       <a href="#why">ليه معايا</a>
       <a href="#faq">أسئلة شائعة</a>
     </nav>
@@ -303,18 +306,19 @@
 
 <section class="about" id="about">
   <div class="wrap about-grid">
-    <div class="about-photo">مكان صورتك الشخصية<br>(هنستبدلها بصورة حقيقية)</div>
+    <div class="about-photo" style="padding:0; overflow:hidden;"><img src="MyPhoto.jpg" alt="أحمد إبراهيم" style="width:100%; height:100%; object-fit:cover;"></div>
     <div class="about-text">
       <div class="eyebrow">نبذة عني</div>
-      <h3>بحلل بيانات بشكل يومي، ومش بعلّم حاجة نظرية بس</h3>
-      <p>[هنا هتحط نبذة حقيقية عن نفسك: بتشتغل فين كمحلل بيانات، وايه نوعية المشاريع اللي عملتها بإكسيل وPower BI وPython.]</p>
-      <p>[سطر تاني: مثال أو نتيجة حقيقية حققتها بتحليل بيانات - ده هيديك مصداقية قدام أول طالب يشوف الصفحة.]</p>
+      <h3>7 سنين خبرة في تحويل البيانات لقرارات</h3>
+      <p>أحمد إبراهيم، محلل بيانات بخبرة تمتد لأكثر من 7 سنوات في العمل على Excel وتحليل البيانات، مع خبرة عملية في تحويل البيانات المعقدة إلى تقارير ولوحات معلومات تساعد على اتخاذ قرارات دقيقة. اشتغلت في مجالات المحاسبة والإنشاءات، وده خلاني أبني حلول عملية بإكسيل بداية من الدوال الأساسية لحد Power Query وPivot Tables والدوال الديناميكية.</p>
+      <p>هدفي من المنصة إني أقدم محتوى عربي عالي الجودة يعتمد على التطبيق العملي وحل مشكلات واقعية، عشان كل متعلم يقدر يستخدم اللي اتعلمه فورًا في سوق العمل - من مبتدئ بيتعلم إكسيل من الصفر، لمحترف عايز يوصل لمستوى متقدم في التحليل والأتمتة وبناء التقارير.</p>
       <div class="skill-tags">
         <span>Excel المتقدم</span>
-        <span>Power BI</span>
-        <span>Python (Pandas)</span>
-        <span>تنضيف البيانات</span>
-        <span>Dashboards</span>
+        <span>Power Query</span>
+        <span>Pivot Tables</span>
+        <span>الدوال الديناميكية</span>
+        <span>Dashboards احترافية</span>
+        <span>7+ سنوات خبرة</span>
       </div>
     </div>
   </div>
@@ -336,22 +340,26 @@
           <div class="course-meta"><span>10 موديولات</span><span>المستوى: مبتدئ إلى متقدم</span></div>
         </div>
       </a>
-      <div class="course-card">
-        <div class="course-thumb"><span class="badge">المسار التالي</span>صورة غلاف كورس Power BI</div>
+      <div class="course-card locked">
+        <div class="course-thumb"><span class="lock-badge">🔒 يفتح بعد إكمال مسار الإكسيل</span>صورة غلاف كورس Power BI</div>
         <div class="course-body">
           <span class="track-tag">Power BI</span>
           <h4>Power BI لعمل Dashboards احترافية</h4>
           <div class="course-meta"><span>المدة: —</span><span>المستوى: متوسط</span></div>
         </div>
       </div>
-      <div class="course-card">
-        <div class="course-thumb"><span class="badge">المسار التالي</span>صورة غلاف كورس Python</div>
+      <div class="course-card locked">
+        <div class="course-thumb"><span class="lock-badge">🔒 يفتح بعد إكمال مسار الإكسيل</span>صورة غلاف كورس Python</div>
         <div class="course-body">
           <span class="track-tag">Python</span>
           <h4>Python لتحليل البيانات (Pandas)</h4>
           <div class="course-meta"><span>المدة: —</span><span>المستوى: متوسط إلى متقدم</span></div>
         </div>
       </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 30px;">
+      <a href="courses.html" class="btn-ghost">تصفح كل الكورسات وابحث بالاسم ←</a>
     </div>
 
     <div class="notify-box" id="notify">
@@ -446,9 +454,9 @@
       </div>
       <div class="footer-col">
         <h5>تواصل</h5>
-        <a href="#">[لينك لينكدإن]</a>
-        <a href="#">[لينك انستجرام]</a>
-        <a href="#">[إيميل التواصل]</a>
+        <a href="https://www.linkedin.com/in/ahmediiibrahem/" target="_blank" rel="noopener">لينكدإن</a>
+        <a href="https://wa.me/966597615080" target="_blank" rel="noopener">واتساب</a>
+        <a href="mailto:ahmediiibrahem72@gmail.com">راسلني على الإيميل</a>
       </div>
     </div>
     <div class="footer-bottom">
