@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مسار Excel الكامل — Ahmed Ibrahem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #071a1c;
+    --bg-soft: #0a2124;
+    --surface: #0e2a2d;
+    --surface-2: #123338;
+    --border: rgba(148, 217, 211, 0.14);
+    --border-strong: rgba(148, 217, 211, 0.28);
+    --text: #eaf7f6;
+    --text-muted: #93b3b1;
+    --text-dim: #5f8482;
+    --accent: #2fe8d6;
+    --accent-soft: rgba(47, 232, 214, 0.12);
+    --accent-deep: #0f8c8c;
+    --accent-ink: #052221;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg); color: var(--text);
+    font-family: 'IBM Plex Sans Arabic', sans-serif; line-height: 1.7; overflow-x: hidden;
+  }
+  body::before{
+    content:''; position: fixed; inset: 0;
+    background: radial-gradient(ellipse 900px 500px at 85% -10%, rgba(47,232,214,0.10), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 10% 20%, rgba(15,140,140,0.10), transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+  h1,h2,h3,h4{ font-family: 'Cairo', sans-serif; font-weight: 800; letter-spacing: -0.01em; }
+  a{ color: inherit; text-decoration: none; }
+  .wrap{ max-width: 980px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size: 13px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); border: 1px solid var(--border-strong); padding: 6px 16px; border-radius: 100px; margin-bottom: 20px;
+  }
+  .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+  header{ position: sticky; top:0; z-index: 50; background: rgba(7,26,28,0.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding: 16px 28px; max-width: 1180px; margin:0 auto; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Cairo'; font-weight:800; font-size:20px; }
+  .logo .mark{ width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-deep)); display:flex; align-items:center; justify-content:center; color: var(--accent-ink); font-weight:900; font-size: 16px; }
+  .logo .name span{ color: var(--accent); }
+  .back-link{ font-size: 14px; color: var(--text-muted); display:flex; align-items:center; gap:6px; }
+  .back-link:hover{ color: var(--accent); }
+  .nav-cta{ background: var(--accent); color: var(--accent-ink); padding: 11px 24px; border-radius: 10px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+
+  .track-hero{ padding: 70px 0 50px; text-align:center; }
+  .track-hero h1{ font-size: 42px; margin-bottom: 18px; }
+  .track-hero p{ color: var(--text-muted); font-size: 17px; max-width: 600px; margin: 0 auto 34px; }
+  .track-meta{ display:flex; justify-content:center; gap: 34px; flex-wrap: wrap; }
+  .track-meta .item b{ display:block; font-family:'Cairo'; font-size: 24px; color: var(--accent); }
+  .track-meta .item span{ font-size: 13px; color: var(--text-dim); }
+
+  .modules{ padding: 40px 0 100px; }
+  .module{
+    display:flex; gap: 26px; padding: 30px 0; border-top: 1px solid var(--border);
+  }
+  .module:last-child{ border-bottom: 1px solid var(--border); }
+  .module-num{
+    flex-shrink:0; width: 54px; height: 54px; border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--border-strong);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cairo'; font-weight: 800; font-size: 20px; color: var(--accent);
+  }
+  .module.done .module-num{ background: var(--accent); color: var(--accent-ink); border:none; }
+  .module-body{ flex:1; }
+  .module-head{ display:flex; justify-content:space-between; align-items:flex-start; gap: 16px; cursor:pointer; }
+  .module-title-en{ font-size: 12px; letter-spacing: 0.06em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; font-family: 'Cairo'; }
+  .module-title-ar{ font-size: 19px; font-family:'Cairo'; font-weight: 700; }
+  .module-toggle{ color: var(--accent); font-size: 22px; transition: transform .25s; flex-shrink:0; }
+  .module.open .module-toggle{ transform: rotate(45deg); }
+  .module-topics{
+    max-height:0; overflow:hidden; transition: max-height .35s ease, margin-top .35s ease;
+  }
+  .module.open .module-topics{ max-height: 400px; margin-top: 18px; }
+  .topic-list{ display:flex; flex-wrap: wrap; gap: 10px; }
+  .topic-list span{
+    background: var(--surface); border:1px solid var(--border); color: var(--text-muted);
+    padding: 8px 15px; border-radius: 10px; font-size: 13.5px;
+  }
+  .module:nth-child(10) .module-num{ background: linear-gradient(135deg, var(--accent), var(--accent-deep)); color: var(--accent-ink); border:none; }
+  .module:nth-child(10) .topic-list span{ border-color: var(--border-strong); color: var(--text); }
+
+  .track-cta{
+    background: linear-gradient(135deg, var(--surface-2), var(--bg-soft));
+    border: 1px solid var(--border-strong); border-radius: 24px;
+    padding: 50px 40px; text-align:center; margin-top: 20px;
+  }
+  .track-cta h3{ font-size: 26px; margin-bottom: 12px; }
+  .track-cta p{ color: var(--text-muted); margin-bottom: 26px; }
+  .btn-primary{
+    background: var(--accent); color: var(--accent-ink); font-weight: 700;
+    padding: 15px 30px; border-radius: 12px; font-size: 15px; display:inline-block;
+  }
+
+  @media (max-width: 640px){
+    .track-hero h1{ font-size: 30px; }
+    .module{ gap: 16px; }
+    .module-num{ width: 44px; height:44px; font-size:16px; }
+    .module-title-ar{ font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo"><div class="mark">AI</div><div class="name">Ahmed<span>.</span>Ibrahem</div></div>
+    <a href="index.html" class="back-link">→ رجوع للرئيسية</a>
+    <a href="index.html#notify" class="nav-cta">اعرف أول ما ينزل</a>
+  </div>
+</header>
+
+<section class="track-hero">
+  <div class="wrap">
+    <div class="eyebrow">المسار الأساسي</div>
+    <h1>مسار Excel الكامل</h1>
+    <p>10 موديولات مرتبة من التعرف على واجهة إكسيل لحد بناء مشاريع احترافية متكاملة زي Dashboards ماليه وأنظمة مخزون كاملة.</p>
+    <div class="track-meta">
+      <div class="item"><b>10</b><span>موديولات مرتبة</span></div>
+      <div class="item"><b>70+</b><span>مهارة وأداة</span></div>
+      <div class="item"><b>1</b><span>مشروع متكامل في الآخر</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="modules">
+  <div class="wrap">
+
+    <div class="module">
+      <div class="module-num">1</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Fundamentals</div>
+            <div class="module-title-ar">Excel للمبتدئين</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>التعرف على واجهة Excel</span><span>إدخال البيانات</span><span>تنسيق الخلايا</span>
+            <span>العمليات الحسابية الأساسية</span><span>حفظ وطباعة الملفات</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">2</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Formulas Essentials</div>
+            <div class="module-title-ar">المعادلات والدوال الأساسية</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>SUM</span><span>AVERAGE</span><span>MIN / MAX</span><span>COUNT</span>
+            <span>IF</span><span>AND / OR</span><span>ROUND</span><span>TEXT</span><span>DATE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">3</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Data Management in Excel</div>
+            <div class="module-title-ar">تنظيم وإدارة البيانات</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Excel Tables</span><span>Sort & Filter</span><span>Conditional Formatting</span>
+            <span>Data Validation</span><span>إزالة التكرارات</span><span>تنظيف البيانات</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">4</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Intermediate Excel Functions</div>
+            <div class="module-title-ar">الدوال المتوسطة</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>XLOOKUP</span><span>INDEX & MATCH</span><span>SUMIFS</span><span>COUNTIFS</span>
+            <span>AVERAGEIFS</span><span>IFERROR</span><span>TEXT Functions</span><span>Date Functions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">5</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Dynamic Excel & Modern Functions</div>
+            <div class="module-title-ar">Excel الحديث (Microsoft 365)</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>FILTER</span><span>UNIQUE</span><span>SORT</span><span>SORTBY</span><span>SEQUENCE</span>
+            <span>LET</span><span>TAKE</span><span>DROP</span><span>CHOOSECOLS</span><span>VSTACK</span><span>HSTACK</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">6</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Advanced Excel Analysis</div>
+            <div class="module-title-ar">تحليل البيانات المتقدم</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Pivot Tables</span><span>Pivot Charts</span><span>Slicers</span><span>Timelines</span>
+            <span>What-if Analysis</span><span>Goal Seek</span><span>Solver</span><span>Scenarios</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">7</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Dashboards & Visualization</div>
+            <div class="module-title-ar">تصميم الداشبورد الاحترافي</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>اختيار الـ KPIs</span><span>Charts</span><span>Interactive Dashboard</span>
+            <span>Dynamic Charts</span><span>Slicers</span><span>Sparklines</span><span>تصميم احترافي</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">8</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Power Query for Excel</div>
+            <div class="module-title-ar">تنظيف وتحويل البيانات</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Import Data</span><span>Merge</span><span>Append</span><span>Unpivot</span>
+            <span>Group By</span><span>Custom Columns</span><span>M Basics</span><span>Refresh Automation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">9</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Automation</div>
+            <div class="module-title-ar">الأتمتة في Excel</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Macros</span><span>مقدمة في VBA</span><span>تسجيل الماكرو</span>
+            <span>كتابة أكواد بسيطة</span><span>User Forms</span><span>Buttons</span><span>Automation Projects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">10</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Professional Projects</div>
+            <div class="module-title-ar">مشاريع احترافية</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Financial Dashboard</span><span>Sales Dashboard</span><span>HR Dashboard</span>
+            <span>Inventory System</span><span>Accounting System</span><span>Attendance Tracker</span>
+            <span>KPI Dashboard</span><span>بناء مشروع متكامل من الصفر</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="track-cta">
+      <h3>خلّص المسار، وطلع بمشروع تحطه في الـ CV</h3>
+      <p>بعد الموديول العاشر هتكون قادر تبني Dashboard احترافي كامل من الصفر.</p>
+      <a href="index.html#notify" class="btn-primary">اعرف أول ما المسار ينزل ←</a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.module-head').forEach(head=>{
+    head.addEventListener('click', ()=>{
+      head.closest('.module').classList.toggle('open');
+    });
+  });
+  // Open the first module by default so visitors see the structure immediately
+  document.querySelector('.module').classList.add('open');
+</script>
+
+</body>
+</html>
