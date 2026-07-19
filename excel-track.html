@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ahmed Ibrahem — كورسات تحليل البيانات</title>
+<title>مسار Excel الكامل — Ahmed Ibrahem</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -25,236 +25,87 @@
   *{ box-sizing: border-box; margin:0; padding:0; }
   html{ scroll-behavior: smooth; }
   body{
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    line-height: 1.7;
-    overflow-x: hidden;
+    background: var(--bg); color: var(--text);
+    font-family: 'IBM Plex Sans Arabic', sans-serif; line-height: 1.7; overflow-x: hidden;
   }
   body::before{
-    content:'';
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(47,232,214,0.10), transparent 60%),
-      radial-gradient(ellipse 700px 500px at 10% 20%, rgba(15,140,140,0.10), transparent 55%);
-    pointer-events: none;
-    z-index: 0;
+    content:''; position: fixed; inset: 0;
+    background: radial-gradient(ellipse 900px 500px at 85% -10%, rgba(47,232,214,0.10), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 10% 20%, rgba(15,140,140,0.10), transparent 55%);
+    pointer-events: none; z-index: 0;
   }
   h1,h2,h3,h4{ font-family: 'Cairo', sans-serif; font-weight: 800; letter-spacing: -0.01em; }
   a{ color: inherit; text-decoration: none; }
-  img{ max-width: 100%; display:block; }
-  .wrap{ max-width: 1180px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+  .wrap{ max-width: 980px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
   .eyebrow{
-    display:inline-flex; align-items:center; gap:8px;
-    font-size: 13px; font-weight: 600; color: var(--accent);
-    background: var(--accent-soft); border: 1px solid var(--border-strong);
-    padding: 6px 16px; border-radius: 100px; margin-bottom: 20px;
+    display:inline-flex; align-items:center; gap:8px; font-size: 13px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); border: 1px solid var(--border-strong); padding: 6px 16px; border-radius: 100px; margin-bottom: 20px;
   }
   .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 
-  /* Header */
-  header{
-    position: sticky; top:0; z-index: 50;
-    background: rgba(7,26,28,0.82);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav{
-    display:flex; align-items:center; justify-content:space-between;
-    padding: 16px 28px; max-width: 1180px; margin:0 auto;
-  }
+  header{ position: sticky; top:0; z-index: 50; background: rgba(7,26,28,0.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding: 16px 28px; max-width: 1180px; margin:0 auto; }
   .logo{ display:flex; align-items:center; gap:10px; font-family:'Cairo'; font-weight:800; font-size:20px; }
-  .logo .mark{
-    width: 36px; height: 36px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
-    display:flex; align-items:center; justify-content:center;
-    color: var(--accent-ink); font-weight:900; font-size: 16px;
-  }
+  .logo .mark{ width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-deep)); display:flex; align-items:center; justify-content:center; color: var(--accent-ink); font-weight:900; font-size: 16px; }
   .logo .name span{ color: var(--accent); }
-  .nav-links{ display:flex; align-items:center; gap:34px; }
-  .nav-links a{ font-size: 15px; color: var(--text-muted); transition: color .2s; }
-  .nav-links a:hover{ color: var(--text); }
-  .nav-cta{
-    background: var(--accent); color: var(--accent-ink);
-    padding: 11px 24px; border-radius: 10px; font-weight: 700; font-size: 14px;
-    transition: transform .2s, box-shadow .2s;
-    white-space: nowrap;
-  }
-  .nav-cta:hover{ transform: translateY(-2px); box-shadow: 0 8px 24px rgba(47,232,214,0.25); }
-  .menu-btn{ display:none; background:none; border:none; color:var(--text); font-size:24px; cursor:pointer; }
+  .back-link{ font-size: 14px; color: var(--text-muted); display:flex; align-items:center; gap:6px; }
+  .back-link:hover{ color: var(--accent); }
+  .nav-cta{ background: var(--accent); color: var(--accent-ink); padding: 11px 24px; border-radius: 10px; font-weight: 700; font-size: 14px; white-space: nowrap; }
 
-  /* Hero */
-  .hero{ padding: 90px 0 70px; position: relative; }
-  .hero-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 50px; align-items:center; }
-  .hero h1{ font-size: 52px; line-height: 1.25; margin-bottom: 22px; }
-  .hero h1 .hl{ color: var(--accent); }
-  .hero p.lead{ font-size: 18px; color: var(--text-muted); max-width: 520px; margin-bottom: 36px; }
-  .hero-actions{ display:flex; gap: 14px; margin-bottom: 46px; flex-wrap: wrap; }
+  .track-hero{ padding: 70px 0 50px; text-align:center; }
+  .track-hero h1{ font-size: 42px; margin-bottom: 18px; }
+  .track-hero p{ color: var(--text-muted); font-size: 17px; max-width: 600px; margin: 0 auto 34px; }
+  .track-meta{ display:flex; justify-content:center; gap: 34px; flex-wrap: wrap; }
+  .track-meta .item b{ display:block; font-family:'Cairo'; font-size: 24px; color: var(--accent); }
+  .track-meta .item span{ font-size: 13px; color: var(--text-dim); }
+
+  .modules{ padding: 40px 0 100px; }
+  .module{
+    display:flex; gap: 26px; padding: 30px 0; border-top: 1px solid var(--border);
+  }
+  .module:last-child{ border-bottom: 1px solid var(--border); }
+  .module-num{
+    flex-shrink:0; width: 54px; height: 54px; border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--border-strong);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cairo'; font-weight: 800; font-size: 20px; color: var(--accent);
+  }
+  .module.done .module-num{ background: var(--accent); color: var(--accent-ink); border:none; }
+  .module-body{ flex:1; }
+  .module-head{ display:flex; justify-content:space-between; align-items:flex-start; gap: 16px; cursor:pointer; }
+  .module-title-en{ font-size: 12px; letter-spacing: 0.06em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; font-family: 'Cairo'; }
+  .module-title-ar{ font-size: 19px; font-family:'Cairo'; font-weight: 700; }
+  .module-toggle{ color: var(--accent); font-size: 22px; transition: transform .25s; flex-shrink:0; }
+  .module.open .module-toggle{ transform: rotate(45deg); }
+  .module-topics{
+    max-height:0; overflow:hidden; transition: max-height .35s ease, margin-top .35s ease;
+  }
+  .module.open .module-topics{ max-height: 400px; margin-top: 18px; }
+  .topic-list{ display:flex; flex-wrap: wrap; gap: 10px; }
+  .topic-list span{
+    background: var(--surface); border:1px solid var(--border); color: var(--text-muted);
+    padding: 8px 15px; border-radius: 10px; font-size: 13.5px;
+  }
+  .module:nth-child(10) .module-num{ background: linear-gradient(135deg, var(--accent), var(--accent-deep)); color: var(--accent-ink); border:none; }
+  .module:nth-child(10) .topic-list span{ border-color: var(--border-strong); color: var(--text); }
+
+  .track-cta{
+    background: linear-gradient(135deg, var(--surface-2), var(--bg-soft));
+    border: 1px solid var(--border-strong); border-radius: 24px;
+    padding: 50px 40px; text-align:center; margin-top: 20px;
+  }
+  .track-cta h3{ font-size: 26px; margin-bottom: 12px; }
+  .track-cta p{ color: var(--text-muted); margin-bottom: 26px; }
   .btn-primary{
     background: var(--accent); color: var(--accent-ink); font-weight: 700;
-    padding: 15px 30px; border-radius: 12px; font-size: 15px;
-    display:inline-flex; align-items:center; gap:8px;
-    transition: transform .2s, box-shadow .2s;
-  }
-  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 28px rgba(47,232,214,0.28); }
-  .btn-ghost{
-    border: 1px solid var(--border-strong); color: var(--text); font-weight: 600;
-    padding: 15px 28px; border-radius: 12px; font-size: 15px;
-    transition: background .2s, border-color .2s;
-  }
-  .btn-ghost:hover{ background: var(--surface); border-color: var(--accent); }
-  .hero-stats{ display:flex; gap: 40px; }
-  .stat b{ display:block; font-family:'Cairo'; font-size: 28px; color: var(--text); }
-  .stat span{ font-size: 13px; color: var(--text-dim); }
-
-  /* Signature path graphic */
-  .path-wrap{ position: relative; height: 460px; }
-  .path-wrap svg{ width:100%; height:100%; }
-  .node-label{
-    position:absolute; font-size: 13px; font-weight: 600;
-    background: var(--surface); border: 1px solid var(--border-strong);
-    padding: 8px 14px; border-radius: 100px; white-space: nowrap;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  }
-  .node-label.n1{ top: 8%; right: 4%; }
-  .node-label.n2{ top: 38%; right: 46%; color: var(--accent); border-color: var(--border-strong); }
-  .node-label.n3{ top: 65%; right: 8%; }
-  .node-label.n4{ top: 88%; right: 52%; background: var(--accent); color: var(--accent-ink); border:none; font-weight:800; }
-
-  /* Section generic */
-  section{ padding: 90px 0; position: relative; }
-  .section-head{ text-align:center; max-width: 620px; margin: 0 auto 54px; }
-  .section-head h2{ font-size: 36px; margin-bottom: 14px; }
-  .section-head p{ color: var(--text-muted); font-size: 16px; }
-
-  /* About */
-  .about{ background: var(--bg-soft); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .about-grid{ display:grid; grid-template-columns: 0.8fr 1.2fr; gap: 60px; align-items:center; }
-  .about-photo{
-    aspect-ratio: 4/5; border-radius: 20px;
-    background: linear-gradient(160deg, var(--surface-2), var(--surface));
-    border: 1px solid var(--border-strong);
-    display:flex; align-items:center; justify-content:center;
-    color: var(--text-dim); font-size: 14px; text-align:center; padding: 20px;
-  }
-  .about-text h3{ font-size: 30px; margin-bottom: 18px; }
-  .about-text p{ color: var(--text-muted); margin-bottom: 16px; font-size: 16px; }
-  .skill-tags{ display:flex; flex-wrap:wrap; gap: 10px; margin-top: 24px; }
-  .skill-tags span{
-    background: var(--surface); border:1px solid var(--border-strong);
-    padding: 8px 16px; border-radius: 100px; font-size: 13px; color: var(--text);
+    padding: 15px 30px; border-radius: 12px; font-size: 15px; display:inline-block;
   }
 
-  /* Courses */
-  .courses-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-  .course-card{
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 18px; overflow: hidden;
-    transition: transform .25s, border-color .25s;
-    display: block;
-  }
-  .course-card:hover{ transform: translateY(-6px); border-color: var(--border-strong); }
-  .course-thumb{
-    height: 170px;
-    background: linear-gradient(135deg, var(--surface-2), var(--bg-soft));
-    display:flex; align-items:center; justify-content:center;
-    color: var(--text-dim); font-size: 13px; position: relative;
-    border-bottom: 1px solid var(--border);
-  }
-  .course-thumb .badge{
-    position:absolute; top:14px; left:14px;
-    background: var(--accent-soft); color: var(--accent); border:1px solid var(--border-strong);
-    font-size: 11px; font-weight:700; padding: 5px 12px; border-radius: 100px;
-  }
-  .course-body{ padding: 22px; }
-  .course-body h4{ font-size: 17px; margin-bottom: 10px; line-height:1.5; }
-  .course-meta{ display:flex; justify-content:space-between; align-items:center; margin-top: 16px; padding-top:16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-dim); }
-  .course-card.featured{ border-color: var(--border-strong); background: linear-gradient(160deg, var(--surface-2), var(--surface)); position: relative; }
-  .course-card.featured::before{ content:'المسار الأساسي'; position:absolute; top:14px; left:14px; background: var(--accent); color: var(--accent-ink); font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 100px; z-index: 2; }
-  .track-tag{ display:inline-block; font-size: 11px; font-weight: 700; background: var(--accent-soft); border: 1px solid var(--border-strong); padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; color: var(--accent); }
-  .course-card.locked{ opacity: 0.55; }
-  .course-card.locked .course-thumb{ filter: grayscale(0.4); }
-  .lock-badge{ position:absolute; top:14px; left:14px; background: var(--bg-soft); color: var(--text-muted); border: 1px solid var(--border-strong); font-size: 11px; font-weight:700; padding: 5px 12px; border-radius: 100px; display:flex; align-items:center; gap:5px; z-index:2; }
-
-  .notify-box{
-    margin-top: 54px; background: var(--surface); border: 1px solid var(--border-strong);
-    border-radius: 20px; padding: 40px; display:flex; align-items:center; justify-content:space-between; gap: 30px; flex-wrap: wrap;
-  }
-  .notify-box h3{ font-size: 22px; margin-bottom: 8px; }
-  .notify-box p{ color: var(--text-muted); font-size: 14px; }
-  .notify-form{ display:flex; gap: 10px; flex: 1; min-width: 280px; max-width: 420px; }
-  .notify-form input{
-    flex:1; background: var(--bg-soft); border: 1px solid var(--border-strong);
-    border-radius: 10px; padding: 13px 16px; color: var(--text); font-family: inherit; font-size: 14px;
-  }
-  .notify-form input::placeholder{ color: var(--text-dim); }
-  .notify-form button{
-    background: var(--accent); color: var(--accent-ink); border:none; border-radius: 10px;
-    padding: 0 22px; font-weight: 700; font-size: 14px; cursor:pointer; white-space:nowrap;
-  }
-
-  .contact-form{ display:flex; flex-direction:column; gap: 12px; max-width: 480px; margin: 0 auto; width:100%; }
-  .contact-form input, .contact-form textarea{
-    background: var(--bg-soft); border: 1px solid var(--border-strong);
-    border-radius: 10px; padding: 13px 16px; color: var(--text); font-family: inherit; font-size: 14px; resize: vertical;
-  }
-  .contact-form input::placeholder, .contact-form textarea::placeholder{ color: var(--text-dim); }
-  .contact-form button{
-    background: var(--accent); color: var(--accent-ink); border:none; border-radius: 10px;
-    padding: 14px 22px; font-weight: 700; font-size: 14px; cursor:pointer;
-  }
-
-  /* Why */
-  .why-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
-  .why-card{ background: var(--surface); border:1px solid var(--border); border-radius: 18px; padding: 30px; }
-  .why-card .ic{
-    width: 46px; height:46px; border-radius: 12px; background: var(--accent-soft);
-    display:flex; align-items:center; justify-content:center; color: var(--accent); font-size:20px; margin-bottom: 18px;
-  }
-  .why-card h4{ font-size: 17px; margin-bottom: 10px; }
-  .why-card p{ color: var(--text-muted); font-size: 14px; }
-
-  /* FAQ */
-  .faq{ max-width: 780px; margin: 0 auto; }
-  .faq-item{ border-bottom: 1px solid var(--border); }
-  .faq-q{
-    display:flex; justify-content:space-between; align-items:center;
-    padding: 22px 4px; cursor:pointer; font-weight:600; font-size: 16px;
-  }
-  .faq-q .plus{ color: var(--accent); font-size: 20px; transition: transform .25s; flex-shrink:0; margin-inline-start: 16px; }
-  .faq-item.open .plus{ transform: rotate(45deg); }
-  .faq-a{ max-height:0; overflow:hidden; transition: max-height .3s ease, padding .3s ease; color: var(--text-muted); font-size:15px; }
-  .faq-item.open .faq-a{ max-height: 200px; padding-bottom: 22px; }
-
-  /* CTA */
-  .cta{
-    background: linear-gradient(135deg, var(--surface-2), var(--bg-soft));
-    border: 1px solid var(--border-strong); border-radius: 28px;
-    padding: 70px 40px; text-align:center; margin: 0 28px;
-    max-width: 1180px; margin: 0 auto;
-  }
-  .cta h2{ font-size: 34px; margin-bottom: 16px; }
-  .cta p{ color: var(--text-muted); max-width: 480px; margin: 0 auto 32px; }
-
-  footer{ padding: 60px 0 30px; border-top: 1px solid var(--border); margin-top: 40px; }
-  .footer-grid{ display:grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 40px; margin-bottom: 50px; }
-  .footer-brand p{ color: var(--text-dim); font-size: 14px; margin-top: 14px; max-width: 280px; }
-  .footer-col h5{ font-size: 14px; margin-bottom: 18px; color: var(--text); }
-  .footer-col a{ display:block; color: var(--text-dim); font-size: 14px; margin-bottom: 12px; transition: color .2s; }
-  .footer-col a:hover{ color: var(--accent); }
-  .footer-bottom{ display:flex; justify-content:space-between; padding-top: 26px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 13px; flex-wrap:wrap; gap:12px; }
-
-  @media (max-width: 900px){
-    .nav-links{ display:none; }
-    .menu-btn{ display:block; }
-    .hero-grid{ grid-template-columns: 1fr; }
-    .hero h1{ font-size: 36px; }
-    .path-wrap{ display:none; }
-    .about-grid{ grid-template-columns: 1fr; }
-    .courses-grid{ grid-template-columns: 1fr; }
-    .why-grid{ grid-template-columns: 1fr; }
-    .footer-grid{ grid-template-columns: 1fr 1fr; }
-    .notify-box{ flex-direction:column; align-items:stretch; text-align:center; }
+  @media (max-width: 640px){
+    .track-hero h1{ font-size: 30px; }
+    .module{ gap: 16px; }
+    .module-num{ width: 44px; height:44px; font-size:16px; }
+    .module-title-ar{ font-size: 16px; }
   }
 </style>
 </head>
@@ -262,253 +113,236 @@
 
 <header>
   <div class="nav">
-    <a href="index.html" class="logo" style="cursor:pointer;">
-      <div class="mark">AI</div>
-      <div class="name">Ahmed<span>.</span>Ibrahem</div>
-    </a>
-    <nav class="nav-links">
-      <a href="#about">نبذة عني</a>
-      <a href="courses.html">كل الكورسات</a>
-      <a href="#why">ليه معايا</a>
-      <a href="#faq">أسئلة شائعة</a>
-      <a href="#contact">تواصل معايا</a>
-    </nav>
-    <a href="#notify" class="nav-cta">اعرف أول ما أنزل كورس</a>
+    <a href="index.html" class="logo" style="cursor:pointer;"><div class="mark">AI</div><div class="name">Ahmed<span>.</span>Ibrahem</div></a>
+    <a href="index.html#notify" class="nav-cta">اعرف أول ما ينزل</a>
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">كورسات تحليل بيانات عملية</div>
-      <h1>ابدأ بـ<span class="hl">إكسيل</span>،<br>وابني منه مسارك في تحليل البيانات</h1>
-      <p class="lead">أحمد إبراهيم — أعلّمك تحليل البيانات بداية من إكسيل لحد Power BI وPython، بمشاريع حقيقية مش شرح نظري بس.</p>
-      <div class="hero-actions">
-        <a href="#notify" class="btn-primary">وصّلني أول ما ينزل كورس إكسيل ←</a>
-        <a href="#courses" class="btn-ghost">شوف المسارات</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat"><b>Excel</b><span>المسار الأساسي أولًا</span></div>
-        <div class="stat"><b>+2</b><span>مسارات تالية: Power BI وPython</span></div>
-        <div class="stat"><b>100%</b><span>تمارين على بيانات حقيقية</span></div>
-      </div>
-    </div>
-    <div class="path-wrap">
-      <svg viewBox="0 0 400 460" fill="none">
-        <path d="M 340 40 C 260 100, 260 160, 190 190 C 110 225, 110 300, 60 340 C 30 365, 200 400, 190 420"
-              stroke="url(#g1)" stroke-width="2.5" stroke-dasharray="6 8" />
-        <defs>
-          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#2fe8d6" stop-opacity="0.9"/>
-            <stop offset="1" stop-color="#2fe8d6" stop-opacity="0.1"/>
-          </linearGradient>
-        </defs>
-        <circle cx="340" cy="40" r="7" fill="#0e2a2d" stroke="#2fe8d6" stroke-width="2"/>
-        <circle cx="190" cy="190" r="8" fill="#2fe8d6"/>
-        <circle cx="60" cy="340" r="7" fill="#0e2a2d" stroke="#2fe8d6" stroke-width="2"/>
-        <circle cx="190" cy="420" r="9" fill="#2fe8d6"/>
-      </svg>
-      <div class="node-label n1">بيانات خام وفوضى</div>
-      <div class="node-label n2">تنضيف وتحليل بإكسيل</div>
-      <div class="node-label n3">عرض احترافي بـ Power BI</div>
-      <div class="node-label n4">أتمتة بـ Python 🐍</div>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="about">
-  <div class="wrap about-grid">
-    <div class="about-photo" style="padding:0; overflow:hidden;"><img src="MyPhoto.jpg" alt="أحمد إبراهيم" style="width:100%; height:100%; object-fit:cover;"></div>
-    <div class="about-text">
-      <div class="eyebrow">نبذة عني</div>
-      <h3>7 سنين خبرة في تحويل البيانات لقرارات</h3>
-      <p>أحمد إبراهيم، محلل بيانات بخبرة تمتد لأكثر من 7 سنوات في العمل على Excel وتحليل البيانات، مع خبرة عملية في تحويل البيانات المعقدة إلى تقارير ولوحات معلومات تساعد على اتخاذ قرارات دقيقة. اشتغلت في مجالات المحاسبة والإنشاءات، وده خلاني أبني حلول عملية بإكسيل بداية من الدوال الأساسية لحد Power Query وPivot Tables والدوال الديناميكية.</p>
-      <p>هدفي من المنصة إني أقدم محتوى عربي عالي الجودة يعتمد على التطبيق العملي وحل مشكلات واقعية، عشان كل متعلم يقدر يستخدم اللي اتعلمه فورًا في سوق العمل - من مبتدئ بيتعلم إكسيل من الصفر، لمحترف عايز يوصل لمستوى متقدم في التحليل والأتمتة وبناء التقارير.</p>
-      <div class="skill-tags">
-        <span>Excel المتقدم</span>
-        <span>Power Query</span>
-        <span>Pivot Tables</span>
-        <span>الدوال الديناميكية</span>
-        <span>Dashboards احترافية</span>
-        <span>7+ سنوات خبرة</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="courses">
+<section class="track-hero">
   <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">مسارات التعلم</div>
-      <h2>ابدأ بإكسيل، وكمّل من بعده</h2>
-      <p>المسار الأساسي دلوقتي هو إكسيل، وبعده Power BI وPython كمسارات تالية. دي كروت مبدئية هتتعدل بالمحتوى الحقيقي أول ما يجهز.</p>
+    <div class="eyebrow">المسار الأساسي</div>
+    <h1>مسار Excel الكامل</h1>
+    <p>10 موديولات مرتبة من التعرف على واجهة إكسيل لحد بناء مشاريع احترافية متكاملة زي Dashboards ماليه وأنظمة مخزون كاملة.</p>
+    <div class="track-meta">
+      <div class="item"><b>10</b><span>موديولات مرتبة</span></div>
+      <div class="item"><b>70+</b><span>مهارة وأداة</span></div>
+      <div class="item"><b>1</b><span>مشروع متكامل في الآخر</span></div>
     </div>
-    <div class="courses-grid">
-      <a href="excel-track.html" class="course-card featured" style="cursor:pointer;">
-        <div class="course-thumb">صورة غلاف كورس إكسيل</div>
-        <div class="course-body">
-          <span class="track-tag">Excel</span>
-          <h4>إكسيل لتحليل البيانات من الصفر للاحتراف</h4>
-          <div class="course-meta"><span>10 موديولات</span><span>المستوى: مبتدئ إلى متقدم</span></div>
+  </div>
+</section>
+
+<section class="modules">
+  <div class="wrap">
+
+    <div class="module">
+      <div class="module-num">1</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Fundamentals</div>
+            <div class="module-title-ar">Excel للمبتدئين</div>
+          </div>
+          <div class="module-toggle">+</div>
         </div>
-      </a>
-      <div class="course-card locked">
-        <div class="course-thumb"><span class="lock-badge">🔒 يفتح بعد إكمال مسار الإكسيل</span>صورة غلاف كورس Power BI</div>
-        <div class="course-body">
-          <span class="track-tag">Power BI</span>
-          <h4>Power BI لعمل Dashboards احترافية</h4>
-          <div class="course-meta"><span>المدة: —</span><span>المستوى: متوسط</span></div>
-        </div>
-      </div>
-      <div class="course-card locked">
-        <div class="course-thumb"><span class="lock-badge">🔒 يفتح بعد إكمال مسار الإكسيل</span>صورة غلاف كورس Python</div>
-        <div class="course-body">
-          <span class="track-tag">Python</span>
-          <h4>Python لتحليل البيانات (Pandas)</h4>
-          <div class="course-meta"><span>المدة: —</span><span>المستوى: متوسط إلى متقدم</span></div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>التعرف على واجهة Excel</span><span>إدخال البيانات</span><span>تنسيق الخلايا</span>
+            <span>العمليات الحسابية الأساسية</span><span>حفظ وطباعة الملفات</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div style="text-align:center; margin-top: 30px;">
-      <a href="courses.html" class="btn-ghost">تصفح كل الكورسات وابحث بالاسم ←</a>
+    <div class="module">
+      <div class="module-num">2</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Formulas Essentials</div>
+            <div class="module-title-ar">المعادلات والدوال الأساسية</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>SUM</span><span>AVERAGE</span><span>MIN / MAX</span><span>COUNT</span>
+            <span>IF</span><span>AND / OR</span><span>ROUND</span><span>TEXT</span><span>DATE</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="notify-box" id="notify">
-      <div>
-        <h3>عايز تعرف أول ما ينزل كورس الإكسيل؟</h3>
-        <p>سيب إيميلك وهبعتلك رسالة واحدة بس لما المحتوى يجهز، من غير إزعاج.</p>
+    <div class="module">
+      <div class="module-num">3</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Data Management in Excel</div>
+            <div class="module-title-ar">تنظيم وإدارة البيانات</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Excel Tables</span><span>Sort & Filter</span><span>Conditional Formatting</span>
+            <span>Data Validation</span><span>إزالة التكرارات</span><span>تنظيف البيانات</span>
+          </div>
+        </div>
       </div>
-      <form class="notify-form"
-            action="https://docs.google.com/forms/d/e/1FAIpQLSfVzOJxFBfuq-9CyRRgjRvGja9-RGT5j_f6RFNrSjaQLdARaQ/formResponse"
-            method="POST" target="hidden_iframe"
-            onsubmit="this.querySelector('button').innerText='تمام، هتوصلك رسالة ✓'; this.querySelector('button').disabled=true;">
-        <input type="email" name="entry.923282077" placeholder="بريدك الإلكتروني" required>
-        <button type="submit">أبلغني</button>
-      </form>
-      <iframe name="hidden_iframe" style="display:none;"></iframe>
     </div>
+
+    <div class="module">
+      <div class="module-num">4</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Intermediate Excel Functions</div>
+            <div class="module-title-ar">الدوال المتوسطة</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>XLOOKUP</span><span>INDEX & MATCH</span><span>SUMIFS</span><span>COUNTIFS</span>
+            <span>AVERAGEIFS</span><span>IFERROR</span><span>TEXT Functions</span><span>Date Functions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">5</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Dynamic Excel & Modern Functions</div>
+            <div class="module-title-ar">Excel الحديث (Microsoft 365)</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>FILTER</span><span>UNIQUE</span><span>SORT</span><span>SORTBY</span><span>SEQUENCE</span>
+            <span>LET</span><span>TAKE</span><span>DROP</span><span>CHOOSECOLS</span><span>VSTACK</span><span>HSTACK</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">6</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Advanced Excel Analysis</div>
+            <div class="module-title-ar">تحليل البيانات المتقدم</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Pivot Tables</span><span>Pivot Charts</span><span>Slicers</span><span>Timelines</span>
+            <span>What-if Analysis</span><span>Goal Seek</span><span>Solver</span><span>Scenarios</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">7</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Dashboards & Visualization</div>
+            <div class="module-title-ar">تصميم الداشبورد الاحترافي</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>اختيار الـ KPIs</span><span>Charts</span><span>Interactive Dashboard</span>
+            <span>Dynamic Charts</span><span>Slicers</span><span>Sparklines</span><span>تصميم احترافي</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">8</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Power Query for Excel</div>
+            <div class="module-title-ar">تنظيف وتحويل البيانات</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Import Data</span><span>Merge</span><span>Append</span><span>Unpivot</span>
+            <span>Group By</span><span>Custom Columns</span><span>M Basics</span><span>Refresh Automation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">9</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Automation</div>
+            <div class="module-title-ar">الأتمتة في Excel</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Macros</span><span>مقدمة في VBA</span><span>تسجيل الماكرو</span>
+            <span>كتابة أكواد بسيطة</span><span>User Forms</span><span>Buttons</span><span>Automation Projects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">10</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Professional Projects</div>
+            <div class="module-title-ar">مشاريع احترافية</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Financial Dashboard</span><span>Sales Dashboard</span><span>HR Dashboard</span>
+            <span>Inventory System</span><span>Accounting System</span><span>Attendance Tracker</span>
+            <span>KPI Dashboard</span><span>بناء مشروع متكامل من الصفر</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="track-cta">
+      <h3>خلّص المسار، وطلع بمشروع تحطه في الـ CV</h3>
+      <p>بعد الموديول العاشر هتكون قادر تبني Dashboard احترافي كامل من الصفر.</p>
+      <a href="excel-player.html" class="btn-primary">افتح المشغّل التجريبي ►</a>
+      <a href="index.html#notify" class="btn-primary" style="background:transparent; border:1px solid var(--border-strong); color:var(--text); margin-inline-start:10px;">اعرف أول ما المسار ينزل ←</a>
+    </div>
+
   </div>
 </section>
-
-<section class="about" id="why">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">ليه تتعلم معايا</div>
-      <h2>3 حاجات هتميز مسار تحليل البيانات ده</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="ic">📊</div>
-        <h4>بيانات حقيقية مش أرقام وهمية</h4>
-        <p>[اشرح هنا مصدر البيانات اللي هتتعلم عليها - شركات وهمية بس بسيناريوهات واقعية، أو داتا حقيقية متاحة.]</p>
-      </div>
-      <div class="why-card">
-        <div class="ic">🧭</div>
-        <h4>مسار مترتب مش كورسات متفرقة</h4>
-        <p>[وضّح هنا إزاي إكسيل بيجهزك لـ Power BI، وPower BI بيجهزك لـ Python، مش 3 كورسات منفصلة.]</p>
-      </div>
-      <div class="why-card">
-        <div class="ic">💼</div>
-        <h4>مشروع نهاية كل مسار</h4>
-        <p>[اشرح هنا شكل المشروع النهائي اللي الطالب هيقدر يحطه في الـ CV أو البورتفوليو بتاعه.]</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="faq">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">الأسئلة الشائعة</div>
-      <h2>إجابات سريعة</h2>
-    </div>
-    <div class="faq">
-      <div class="faq-item">
-        <div class="faq-q">لازم أبدأ بإكسيل ولا أقدر أدخل على Power BI أو Python مباشرة؟<span class="plus">+</span></div>
-        <div class="faq-a">[وضّح هنا هل المسار إجباري بالترتيب ولا كل كورس مستقل بذاته.]</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">محتاج خبرة سابقة في الإكسيل قبل ما ابدأ؟<span class="plus">+</span></div>
-        <div class="faq-a">[وضّح المستوى المطلوب - غالبًا كورس الإكسيل هيبدأ من الصفر.]</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">امتى كورس الإكسيل هينزل؟<span class="plus">+</span></div>
-        <div class="faq-a">[اكتب هنا تاريخ تقريبي أو "قريبًا" لحد ما تحسم الموعد.]</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="wrap">
-    <div class="notify-box" style="flex-direction:column; align-items:stretch; text-align:center; gap:22px;">
-      <div>
-        <h3>عندك سؤال أو حابب تبعتلي رسالة؟</h3>
-        <p>اكتب اسمك وإيميلك ورسالتك، وهرد عليك على نفس الإيميل.</p>
-      </div>
-      <form class="contact-form"
-            action="https://docs.google.com/forms/d/e/1FAIpQLSfVzOJxFBfuq-9CyRRgjRvGja9-RGT5j_f6RFNrSjaQLdARaQ/formResponse"
-            method="POST" target="hidden_iframe_contact"
-            onsubmit="this.querySelector('button').innerText='اتبعتت، شكرًا ✓'; this.querySelector('button').disabled=true;">
-        <input type="text" name="entry.955137781" placeholder="اسمك" required>
-        <input type="email" name="entry.923282077" placeholder="بريدك الإلكتروني" required>
-        <textarea name="entry.916404818" placeholder="رسالتك..." rows="4" required></textarea>
-        <button type="submit">إرسال</button>
-      </form>
-      <iframe name="hidden_iframe_contact" style="display:none;"></iframe>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="cta">
-      <h2>ابدأ رحلتك دلوقتي</h2>
-      <p>اشترك عشان توصلك أول كورس أنزّله أول بأول، ومتفوتش حاجة.</p>
-      <a href="#notify" class="btn-primary">اعرف أول ما أنزل كورس ←</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="logo"><div class="mark">AI</div><div class="name">Ahmed<span>.</span>Ibrahem</div></div>
-        <p>كورسات تحليل بيانات عملية: إكسيل، Power BI، وPython — تبدأ من الصفر وتوصل لمشروع حقيقي في CV بتاعك.</p>
-      </div>
-      <div class="footer-col">
-        <h5>الموقع</h5>
-        <a href="#about">نبذة عني</a>
-        <a href="#courses">الكورسات</a>
-        <a href="#why">ليه معايا</a>
-      </div>
-      <div class="footer-col">
-        <h5>روابط</h5>
-        <a href="#faq">أسئلة شائعة</a>
-        <a href="#notify">اشترك للتحديثات</a>
-      </div>
-      <div class="footer-col">
-        <h5>تواصل</h5>
-        <a href="https://www.linkedin.com/in/ahmediiibrahem/" target="_blank" rel="noopener">لينكدإن</a>
-        <a href="https://wa.me/966597615080" target="_blank" rel="noopener">واتساب</a>
-        <a href="mailto:ahmediiibrahem72@gmail.com">راسلني على الإيميل</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Ahmed Ibrahem. جميع الحقوق محفوظة.</span>
-      <span>صُمم بهوية بصرية خاصة</span>
-    </div>
-  </div>
-</footer>
 
 <script>
-  document.querySelectorAll('.faq-q').forEach(q=>{
-    q.addEventListener('click', ()=>{
-      q.parentElement.classList.toggle('open');
+  document.querySelectorAll('.module-head').forEach(head=>{
+    head.addEventListener('click', ()=>{
+      head.closest('.module').classList.toggle('open');
     });
   });
+  // Open the first module by default so visitors see the structure immediately
+  document.querySelector('.module').classList.add('open');
 </script>
 
 </body>
