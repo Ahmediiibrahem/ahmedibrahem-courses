@@ -41,6 +41,40 @@
   .sidebar-head h3{ font-size:15px; margin-bottom:4px; }
   .sidebar-head .meta{ font-size:12px; color:var(--text-dim); }
   .sidebar-head .note{ font-size:11px; color:var(--accent); background:var(--accent-soft); border:1px solid var(--border-strong); padding:3px 10px; border-radius:100px; display:inline-block; margin-top:8px; }
+  .restart-btn{
+    margin-top:12px; width:100%; background:transparent; border:1px solid var(--border-strong);
+    color:var(--text-muted); padding:9px 14px; border-radius:9px; font-size:12.5px; font-weight:600;
+    display:flex; align-items:center; justify-content:center; gap:6px; transition:border-color .2s, color .2s;
+  }
+  .restart-btn:hover{ border-color:#e85d5d; color:#e85d5d; }
+
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(4,12,13,0.72); backdrop-filter:blur(4px);
+    z-index:200; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-box{
+    background:var(--surface); border:1px solid var(--border-strong); border-radius:20px;
+    padding:32px; max-width:380px; width:100%; text-align:center;
+  }
+  .modal-box h3{ font-size:19px; margin-bottom:10px; }
+  .modal-box p{ color:var(--text-muted); font-size:13.5px; margin-bottom:22px; }
+  .captcha-code{
+    display:flex; justify-content:center; gap:8px; margin-bottom:18px; user-select:none;
+    background:var(--bg-soft); border:1px solid var(--border); border-radius:12px; padding:16px;
+  }
+  .captcha-code span{ font-family:'Cairo'; font-weight:800; font-size:26px; display:inline-block; }
+  .captcha-code .noise-line{ position:absolute; }
+  .modal-box input{
+    width:100%; text-align:center; letter-spacing:6px; font-size:18px; font-family:'Cairo'; font-weight:700;
+    background:var(--bg-soft); border:1px solid var(--border-strong); border-radius:10px;
+    padding:12px; color:var(--text); margin-bottom:10px;
+  }
+  .modal-error{ color:#e85d5d; font-size:12.5px; margin-bottom:10px; min-height:16px; }
+  .modal-actions{ display:flex; gap:10px; margin-top:6px; }
+  .modal-actions button{ flex:1; padding:12px; border-radius:10px; font-weight:700; font-size:14px; border:none; }
+  .modal-cancel{ background:var(--bg-soft); color:var(--text-muted); border:1px solid var(--border-strong) !important; }
+  .modal-confirm{ background:#e85d5d; color:#2a0a0a; }
 
   .video-list{ overflow-y:auto; flex:1; padding: 6px 10px 20px; }
   .section-title{ font-size:12px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.04em; padding:16px 10px 8px; font-family:'Cairo'; }
@@ -89,6 +123,20 @@
 </style>
 </head>
 <body>
+
+<div class="modal-overlay" id="restartModal">
+  <div class="modal-box">
+    <h3>إعادة الكورس من البداية؟</h3>
+    <p>هيتشال علامة "متشاف" من كل فيديوهات الكورس ده. اكتب الرمز اللي في الصورة عشان تأكيد الطلب.</p>
+    <div class="captcha-code" id="captchaDisplay"></div>
+    <input type="text" id="captchaInput" placeholder="اكتب الرمز هنا" maxlength="4" inputmode="numeric">
+    <div class="modal-error" id="captchaError"></div>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="cancelRestart">إلغاء</button>
+      <button class="modal-confirm" id="confirmRestart">تأكيد الإعادة</button>
+    </div>
+  </div>
+</div>
 
 <header>
   <div class="nav">
@@ -202,7 +250,9 @@ function renderSidebarHead(){
     <h3>Course ${c.num} — ${c.titleEn}</h3>
     <div class="meta">${c.titleAr} · ${total} فيديو · ~${Math.round(totalMin/60*10)/10} ساعة</div>
     ${c.note ? `<div class="note">${c.note}</div>` : ''}
+    <button class="restart-btn" id="restartBtn">↺ إعادة الكورس من البداية</button>
   `;
+  document.getElementById('restartBtn').addEventListener('click', openRestartModal);
 }
 
 function renderVideoList(){
@@ -318,6 +368,63 @@ if (requestedCourse) {
 }
 
 renderAll();
+
+// ---- Restart course with captcha confirmation ----
+let currentCaptcha = '';
+
+function generateCaptcha(){
+  currentCaptcha = String(Math.floor(1000 + Math.random() * 9000));
+  const display = document.getElementById('captchaDisplay');
+  display.innerHTML = '';
+  const colors = ['#2fe8d6', '#eaf7f6', '#93b3b1', '#0f8c8c'];
+  currentCaptcha.split('').forEach((digit) => {
+    const span = document.createElement('span');
+    span.textContent = digit;
+    const rotate = (Math.random() * 34 - 17).toFixed(1);
+    const skew = (Math.random() * 20 - 10).toFixed(1);
+    const translateY = (Math.random() * 10 - 5).toFixed(1);
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    span.style.transform = `rotate(${rotate}deg) skewX(${skew}deg) translateY(${translateY}px)`;
+    span.style.color = color;
+    span.style.textShadow = '1px 1px 0 rgba(0,0,0,0.35)';
+    display.appendChild(span);
+  });
+}
+
+function openRestartModal(){
+  generateCaptcha();
+  document.getElementById('captchaInput').value = '';
+  document.getElementById('captchaError').textContent = '';
+  document.getElementById('restartModal').classList.add('show');
+}
+
+function closeRestartModal(){
+  document.getElementById('restartModal').classList.remove('show');
+}
+
+document.getElementById('cancelRestart').addEventListener('click', closeRestartModal);
+document.getElementById('restartModal').addEventListener('click', (e) => {
+  if(e.target.id === 'restartModal') closeRestartModal();
+});
+
+document.getElementById('confirmRestart').addEventListener('click', () => {
+  const input = document.getElementById('captchaInput').value.trim();
+  const errorBox = document.getElementById('captchaError');
+  if(input !== currentCaptcha){
+    errorBox.textContent = 'الرمز مش مطابق، حاول تاني.';
+    generateCaptcha();
+    document.getElementById('captchaInput').value = '';
+    return;
+  }
+  // Clear all completed videos for the current course only
+  [...done].forEach(id => {
+    if(id.startsWith(`c${currentCourseIdx}-`)) done.delete(id);
+  });
+  setDone(done);
+  currentFlatIdx = flatIndexOf(currentCourseIdx, 0, 0);
+  closeRestartModal();
+  renderAll();
+});
 </script>
 
 </body>
