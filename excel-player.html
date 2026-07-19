@@ -165,6 +165,19 @@ function flatIndexOf(ci, si, vi){
   return FLAT.findIndex(f => f.ci===ci && f.si===si && f.vi===vi);
 }
 
+function getResumeFlatIndex(ci){
+  const c = COURSES[ci];
+  for(let si=0; si<c.sections.length; si++){
+    const s = c.sections[si];
+    for(let vi=0; vi<s.videos.length; vi++){
+      const id = `c${ci}-s${si}-v${vi}`;
+      if(!done.has(id)) return flatIndexOf(ci, si, vi);
+    }
+  }
+  // everything in this course is already done — just show its first video
+  return flatIndexOf(ci, 0, 0);
+}
+
 function renderTabs(){
   const wrap = document.getElementById('tabs');
   wrap.innerHTML = '';
@@ -175,7 +188,7 @@ function renderTabs(){
     btn.className = 'tab' + (ci===currentCourseIdx ? ' active':'') + (doneCount===total ? ' done':'');
     btn.textContent = c.num;
     btn.title = c.titleAr;
-    btn.onclick = () => { currentCourseIdx = ci; renderTabs(); renderSidebarHead(); renderVideoList(); renderCourseProgress(); };
+    btn.onclick = () => { currentCourseIdx = ci; currentFlatIdx = getResumeFlatIndex(ci); renderAll(); };
     wrap.appendChild(btn);
   });
 }
@@ -300,7 +313,7 @@ if (requestedCourse) {
   const idx = COURSES.findIndex(c => c.num === requestedCourse);
   if (idx !== -1) {
     currentCourseIdx = idx;
-    currentFlatIdx = flatIndexOf(idx, 0, 0);
+    currentFlatIdx = getResumeFlatIndex(idx);
   }
 }
 
