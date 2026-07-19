@@ -193,6 +193,17 @@
     padding: 0 22px; font-weight: 700; font-size: 14px; cursor:pointer; white-space:nowrap;
   }
 
+  .contact-form{ display:flex; flex-direction:column; gap: 12px; max-width: 480px; margin: 0 auto; width:100%; }
+  .contact-form input, .contact-form textarea{
+    background: var(--bg-soft); border: 1px solid var(--border-strong);
+    border-radius: 10px; padding: 13px 16px; color: var(--text); font-family: inherit; font-size: 14px; resize: vertical;
+  }
+  .contact-form input::placeholder, .contact-form textarea::placeholder{ color: var(--text-dim); }
+  .contact-form button{
+    background: var(--accent); color: var(--accent-ink); border:none; border-radius: 10px;
+    padding: 14px 22px; font-weight: 700; font-size: 14px; cursor:pointer;
+  }
+
   /* Why */
   .why-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
   .why-card{ background: var(--surface); border:1px solid var(--border); border-radius: 18px; padding: 30px; }
@@ -260,6 +271,7 @@
       <a href="courses.html">كل الكورسات</a>
       <a href="#why">ليه معايا</a>
       <a href="#faq">أسئلة شائعة</a>
+      <a href="#contact">تواصل معايا</a>
     </nav>
     <a href="#notify" class="nav-cta">اعرف أول ما أنزل كورس</a>
   </div>
@@ -424,6 +436,27 @@
         <div class="faq-q">امتى كورس الإكسيل هينزل؟<span class="plus">+</span></div>
         <div class="faq-a">[اكتب هنا تاريخ تقريبي أو "قريبًا" لحد ما تحسم الموعد.]</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="notify-box" style="flex-direction:column; align-items:stretch; text-align:center; gap:22px;">
+      <div>
+        <h3>عندك سؤال أو حابب تبعتلي رسالة؟</h3>
+        <p>اكتب اسمك وإيميلك ورسالتك، وهرد عليك على نفس الإيميل.</p>
+      </div>
+      <form class="contact-form"
+            action="https://docs.google.com/forms/d/e/1FAIpQLSfVzOJxFBfuq-9CyRRgjRvGja9-RGT5j_f6RFNrSjaQLdARaQ/formResponse"
+            method="POST" target="hidden_iframe_contact"
+            onsubmit="this.querySelector('button').innerText='اتبعتت، شكرًا ✓'; this.querySelector('button').disabled=true;">
+        <input type="text" name="entry.955137781" placeholder="اسمك" required>
+        <input type="email" name="entry.923282077" placeholder="بريدك الإلكتروني" required>
+        <textarea name="entry.916404818" placeholder="رسالتك..." rows="4" required></textarea>
+        <button type="submit">إرسال</button>
+      </form>
+      <iframe name="hidden_iframe_contact" style="display:none;"></iframe>
     </div>
   </div>
 </section>
