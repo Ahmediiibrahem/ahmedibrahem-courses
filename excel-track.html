@@ -3,88 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مشغّل مسار Excel — Ahmed Ibrahem</title>
+<title>مسار Excel الكامل — Ahmed Ibrahem</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #071a1c; --bg-soft: #0a2124; --surface: #0e2a2d; --surface-2: #123338;
-    --border: rgba(148, 217, 211, 0.14); --border-strong: rgba(148, 217, 211, 0.28);
-    --text: #eaf7f6; --text-muted: #93b3b1; --text-dim: #5f8482;
-    --accent: #2fe8d6; --accent-soft: rgba(47, 232, 214, 0.12); --accent-deep: #0f8c8c; --accent-ink: #052221;
+    --bg: #071a1c;
+    --bg-soft: #0a2124;
+    --surface: #0e2a2d;
+    --surface-2: #123338;
+    --border: rgba(148, 217, 211, 0.14);
+    --border-strong: rgba(148, 217, 211, 0.28);
+    --text: #eaf7f6;
+    --text-muted: #93b3b1;
+    --text-dim: #5f8482;
+    --accent: #2fe8d6;
+    --accent-soft: rgba(47, 232, 214, 0.12);
+    --accent-deep: #0f8c8c;
+    --accent-ink: #052221;
   }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  body{ background:var(--bg); color:var(--text); font-family:'IBM Plex Sans Arabic', sans-serif; line-height:1.6; }
-  h1,h2,h3,h4{ font-family:'Cairo', sans-serif; font-weight:800; }
-  a{ color:inherit; text-decoration:none; }
-  button{ font-family:inherit; cursor:pointer; }
-
-  header{ position:sticky; top:0; z-index:50; background:rgba(7,26,28,0.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); }
-  .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 24px; }
-  .logo{ display:flex; align-items:center; gap:10px; font-family:'Cairo'; font-weight:800; font-size:18px; }
-  .logo .mark{ width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg, var(--accent), var(--accent-deep)); display:flex; align-items:center; justify-content:center; color:var(--accent-ink); font-weight:900; font-size:14px; }
-  .logo .name span{ color:var(--accent); }
-  .track-progress-mini{ display:flex; align-items:center; gap:12px; font-size:13px; color:var(--text-muted); }
-  .track-progress-mini .bar{ width:140px; height:7px; border-radius:100px; background:var(--surface-2); overflow:hidden; }
-  .track-progress-mini .bar-fill{ height:100%; background:var(--accent); border-radius:100px; transition:width .3s; }
-
-  .layout{ display:grid; grid-template-columns: 340px 1fr; min-height: calc(100vh - 62px); }
-
-  /* Sidebar */
-  .sidebar{ border-left:1px solid var(--border); background:var(--bg-soft); display:flex; flex-direction:column; max-height: calc(100vh - 62px); position:sticky; top:62px; }
-  .tabs{ display:flex; gap:6px; padding:14px; overflow-x:auto; border-bottom:1px solid var(--border); flex-shrink:0; }
-  .tab{ flex-shrink:0; width:38px; height:38px; border-radius:10px; background:var(--surface); border:1px solid var(--border-strong); color:var(--text-muted); display:flex; align-items:center; justify-content:center; font-family:'Cairo'; font-weight:800; font-size:14px; position:relative; }
-  .tab.active{ background:var(--accent); color:var(--accent-ink); border-color:transparent; }
-  .tab.done::after{ content:'✓'; position:absolute; top:-5px; left:-5px; width:16px; height:16px; background:var(--accent); color:var(--accent-ink); border-radius:50%; font-size:10px; display:flex; align-items:center; justify-content:center; font-weight:900; }
-
-  .sidebar-head{ padding:16px 18px 10px; flex-shrink:0; }
-  .sidebar-head h3{ font-size:15px; margin-bottom:4px; }
-  .sidebar-head .meta{ font-size:12px; color:var(--text-dim); }
-  .sidebar-head .note{ font-size:11px; color:var(--accent); background:var(--accent-soft); border:1px solid var(--border-strong); padding:3px 10px; border-radius:100px; display:inline-block; margin-top:8px; }
-
-  .video-list{ overflow-y:auto; flex:1; padding: 6px 10px 20px; }
-  .section-title{ font-size:12px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.04em; padding:16px 10px 8px; font-family:'Cairo'; }
-  .video-row{ display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px; cursor:pointer; transition:background .15s; }
-  .video-row:hover{ background:var(--surface); }
-  .video-row.current{ background:var(--accent-soft); border:1px solid var(--border-strong); }
-  .video-row input[type=checkbox]{ width:17px; height:17px; accent-color: var(--accent); flex-shrink:0; cursor:pointer; }
-  .video-row .vtitle{ flex:1; font-size:13.5px; color:var(--text); }
-  .video-row.current .vtitle{ color:var(--accent); font-weight:600; }
-  .video-row.done .vtitle{ color:var(--text-dim); text-decoration:line-through; }
-  .video-row .vdur{ font-size:11px; color:var(--text-dim); flex-shrink:0; }
-
-  /* Main */
-  .main{ padding: 34px 40px; max-width: 880px; }
-  .breadcrumb{ font-size:13px; color:var(--text-dim); margin-bottom:16px; }
-  .breadcrumb b{ color:var(--accent); font-weight:600; }
-  .player-box{
-    aspect-ratio: 16/9; background: linear-gradient(160deg, var(--surface-2), var(--bg-soft));
-    border:1px solid var(--border-strong); border-radius:20px; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:14px; color:var(--text-dim); text-align:center; padding:20px;
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg); color: var(--text);
+    font-family: 'IBM Plex Sans Arabic', sans-serif; line-height: 1.7; overflow-x: hidden;
   }
-  .player-box .play-ic{ width:70px; height:70px; border-radius:50%; background:var(--accent-soft); border:1px solid var(--border-strong); display:flex; align-items:center; justify-content:center; font-size:26px; color:var(--accent); }
-  .video-head{ margin-top:26px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; }
-  .video-head h2{ font-size:24px; margin-bottom:8px; }
-  .video-head .dur-badge{ font-size:12px; color:var(--text-dim); }
-  .mark-btn{ background:var(--surface); border:1px solid var(--border-strong); color:var(--text); padding:11px 22px; border-radius:10px; font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; white-space:nowrap; }
-  .mark-btn.done{ background:var(--accent); color:var(--accent-ink); border-color:transparent; }
+  body::before{
+    content:''; position: fixed; inset: 0;
+    background: radial-gradient(ellipse 900px 500px at 85% -10%, rgba(47,232,214,0.10), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 10% 20%, rgba(15,140,140,0.10), transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+  h1,h2,h3,h4{ font-family: 'Cairo', sans-serif; font-weight: 800; letter-spacing: -0.01em; }
+  a{ color: inherit; text-decoration: none; }
+  .wrap{ max-width: 980px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size: 13px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); border: 1px solid var(--border-strong); padding: 6px 16px; border-radius: 100px; margin-bottom: 20px;
+  }
+  .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 
-  .nav-buttons{ display:flex; justify-content:space-between; gap:14px; margin-top:30px; }
-  .nav-btn{ flex:1; background:var(--surface); border:1px solid var(--border-strong); border-radius:14px; padding:16px 20px; display:flex; flex-direction:column; gap:4px; transition:border-color .2s, transform .2s; }
-  .nav-btn:hover{ border-color:var(--accent); transform:translateY(-2px); }
-  .nav-btn .lbl{ font-size:11px; color:var(--text-dim); }
-  .nav-btn .ttl{ font-size:14px; font-weight:600; color:var(--text); }
-  .nav-btn.disabled{ opacity:0.35; pointer-events:none; }
+  header{ position: sticky; top:0; z-index: 50; background: rgba(7,26,28,0.82); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding: 16px 28px; max-width: 1180px; margin:0 auto; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Cairo'; font-weight:800; font-size:20px; }
+  .logo .mark{ width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-deep)); display:flex; align-items:center; justify-content:center; color: var(--accent-ink); font-weight:900; font-size: 16px; }
+  .logo .name span{ color: var(--accent); }
+  .back-link{ font-size: 14px; color: var(--text-muted); display:flex; align-items:center; gap:6px; }
+  .back-link:hover{ color: var(--accent); }
+  .nav-cta{ background: var(--accent); color: var(--accent-ink); padding: 11px 24px; border-radius: 10px; font-weight: 700; font-size: 14px; white-space: nowrap; }
 
-  .course-progress{ margin-top:34px; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px; display:flex; justify-content:space-between; align-items:center; }
-  .course-progress .txt{ font-size:13px; color:var(--text-muted); }
-  .course-progress .bar{ width:160px; height:8px; border-radius:100px; background:var(--surface-2); overflow:hidden; }
-  .course-progress .bar-fill{ height:100%; background:var(--accent); border-radius:100px; transition:width .3s; }
+  .track-hero{ padding: 70px 0 50px; text-align:center; }
+  .track-hero h1{ font-size: 42px; margin-bottom: 18px; }
+  .track-hero p{ color: var(--text-muted); font-size: 17px; max-width: 600px; margin: 0 auto 34px; }
+  .track-meta{ display:flex; justify-content:center; gap: 34px; flex-wrap: wrap; }
+  .track-meta .item b{ display:block; font-family:'Cairo'; font-size: 24px; color: var(--accent); }
+  .track-meta .item span{ font-size: 13px; color: var(--text-dim); }
 
-  @media (max-width: 900px){
-    .layout{ grid-template-columns: 1fr; }
-    .sidebar{ position:relative; top:0; max-height: 420px; border-left:none; border-bottom:1px solid var(--border); }
-    .main{ padding: 24px 18px; }
+  .modules{ padding: 40px 0 100px; }
+  .module{
+    display:flex; gap: 26px; padding: 30px 0; border-top: 1px solid var(--border);
+  }
+  .module:last-child{ border-bottom: 1px solid var(--border); }
+  .module-num{
+    flex-shrink:0; width: 54px; height: 54px; border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--border-strong);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cairo'; font-weight: 800; font-size: 20px; color: var(--accent);
+  }
+  .module.done .module-num{ background: var(--accent); color: var(--accent-ink); border:none; }
+  .module-body{ flex:1; }
+  .module-head{ display:flex; justify-content:space-between; align-items:flex-start; gap: 16px; cursor:pointer; }
+  .module-title-en{ font-size: 12px; letter-spacing: 0.06em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; font-family: 'Cairo'; }
+  .module-title-ar{ font-size: 19px; font-family:'Cairo'; font-weight: 700; }
+  .module-toggle{ color: var(--accent); font-size: 22px; transition: transform .25s; flex-shrink:0; }
+  .module.open .module-toggle{ transform: rotate(45deg); }
+  .module-topics{
+    max-height:0; overflow:hidden; transition: max-height .35s ease, margin-top .35s ease;
+  }
+  .module.open .module-topics{ max-height: 400px; margin-top: 18px; }
+  .topic-list{ display:flex; flex-wrap: wrap; gap: 10px; }
+  .topic-list span{
+    background: var(--surface); border:1px solid var(--border); color: var(--text-muted);
+    padding: 8px 15px; border-radius: 10px; font-size: 13.5px;
+  }
+  .module:nth-child(10) .module-num{ background: linear-gradient(135deg, var(--accent), var(--accent-deep)); color: var(--accent-ink); border:none; }
+  .module:nth-child(10) .topic-list span{ border-color: var(--border-strong); color: var(--text); }
+
+  .track-cta{
+    background: linear-gradient(135deg, var(--surface-2), var(--bg-soft));
+    border: 1px solid var(--border-strong); border-radius: 24px;
+    padding: 50px 40px; text-align:center; margin-top: 20px;
+  }
+  .track-cta h3{ font-size: 26px; margin-bottom: 12px; }
+  .track-cta p{ color: var(--text-muted); margin-bottom: 26px; }
+  .btn-primary{
+    background: var(--accent); color: var(--accent-ink); font-weight: 700;
+    padding: 15px 30px; border-radius: 12px; font-size: 15px; display:inline-block;
+  }
+
+  @media (max-width: 640px){
+    .track-hero h1{ font-size: 30px; }
+    .module{ gap: 16px; }
+    .module-num{ width: 44px; height:44px; font-size:16px; }
+    .module-title-ar{ font-size: 16px; }
   }
 </style>
 </head>
@@ -92,214 +113,247 @@
 
 <header>
   <div class="nav">
-    <a href="index.html" class="logo"><div class="mark">AI</div><div class="name">Ahmed<span>.</span>Ibrahem</div></a>
-    <div class="track-progress-mini">
-      <span id="overallLabel">0 / 0 فيديو</span>
-      <div class="bar"><div class="bar-fill" id="overallBar" style="width:0%"></div></div>
-    </div>
+    <a href="index.html" class="logo" style="cursor:pointer;"><div class="mark">AI</div><div class="name">Ahmed<span>.</span>Ibrahem</div></a>
+    <a href="index.html#notify" class="nav-cta">اعرف أول ما ينزل</a>
   </div>
 </header>
 
-<div class="layout">
-  <aside class="sidebar">
-    <div class="tabs" id="tabs"></div>
-    <div class="sidebar-head" id="sidebarHead"></div>
-    <div class="video-list" id="videoList"></div>
-  </aside>
-
-  <main class="main">
-    <div class="breadcrumb" id="breadcrumb"></div>
-    <div class="player-box">
-      <div class="play-ic">▶</div>
-      <div>فيديو تجريبي — هيتحط هنا الفيديو الحقيقي أول ما يجهز</div>
+<section class="track-hero">
+  <div class="wrap">
+    <div class="eyebrow">المسار الأساسي</div>
+    <h1>مسار Excel الكامل</h1>
+    <p>10 موديولات مرتبة من التعرف على واجهة إكسيل لحد بناء مشاريع احترافية متكاملة زي Dashboards ماليه وأنظمة مخزون كاملة.</p>
+    <div class="track-meta">
+      <div class="item"><b>10</b><span>موديولات مرتبة</span></div>
+      <div class="item"><b>70+</b><span>مهارة وأداة</span></div>
+      <div class="item"><b>1</b><span>مشروع متكامل في الآخر</span></div>
     </div>
-    <div class="video-head">
-      <div>
-        <h2 id="videoTitle"></h2>
-        <div class="dur-badge" id="videoDur"></div>
+  </div>
+</section>
+
+<section class="modules">
+  <div class="wrap">
+
+    <div class="module">
+      <div class="module-num">1</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Fundamentals</div>
+            <div class="module-title-ar">Excel للمبتدئين</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>التعرف على واجهة Excel</span><span>إدخال البيانات</span><span>تنسيق الخلايا</span>
+            <span>العمليات الحسابية الأساسية</span><span>حفظ وطباعة الملفات</span>
+          </div>
+        </div>
       </div>
-      <button class="mark-btn" id="markBtn">✓ علّم كمشاهَد</button>
     </div>
 
-    <div class="nav-buttons">
-      <button class="nav-btn" id="prevBtn" style="text-align:right;">
-        <span class="lbl">◄ السابق</span>
-        <span class="ttl" id="prevTitle"></span>
-      </button>
-      <button class="nav-btn" id="nextBtn" style="text-align:left;">
-        <span class="lbl">التالي ►</span>
-        <span class="ttl" id="nextTitle"></span>
-      </button>
+    <div class="module">
+      <div class="module-num">2</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Formulas Essentials</div>
+            <div class="module-title-ar">المعادلات والدوال الأساسية</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>SUM</span><span>AVERAGE</span><span>MIN / MAX</span><span>COUNT</span>
+            <span>IF</span><span>AND / OR</span><span>ROUND</span><span>TEXT</span><span>DATE</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="course-progress">
-      <span class="txt" id="courseProgressTxt"></span>
-      <div class="bar"><div class="bar-fill" id="courseProgressBar" style="width:0%"></div></div>
+    <div class="module">
+      <div class="module-num">3</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Data Management in Excel</div>
+            <div class="module-title-ar">تنظيم وإدارة البيانات</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Excel Tables</span><span>Sort & Filter</span><span>Conditional Formatting</span>
+            <span>Data Validation</span><span>إزالة التكرارات</span><span>تنظيف البيانات</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
-</div>
+
+    <div class="module">
+      <div class="module-num">4</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Intermediate Excel Functions</div>
+            <div class="module-title-ar">الدوال المتوسطة</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>XLOOKUP</span><span>INDEX & MATCH</span><span>SUMIFS</span><span>COUNTIFS</span>
+            <span>AVERAGEIFS</span><span>IFERROR</span><span>TEXT Functions</span><span>Date Functions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">5</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Dynamic Excel & Modern Functions</div>
+            <div class="module-title-ar">Excel الحديث (Microsoft 365)</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>FILTER</span><span>UNIQUE</span><span>SORT</span><span>SORTBY</span><span>SEQUENCE</span>
+            <span>LET</span><span>TAKE</span><span>DROP</span><span>CHOOSECOLS</span><span>VSTACK</span><span>HSTACK</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">6</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Advanced Excel Analysis</div>
+            <div class="module-title-ar">تحليل البيانات المتقدم</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Pivot Tables</span><span>Pivot Charts</span><span>Slicers</span><span>Timelines</span>
+            <span>What-if Analysis</span><span>Goal Seek</span><span>Solver</span><span>Scenarios</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">7</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Dashboards & Visualization</div>
+            <div class="module-title-ar">تصميم الداشبورد الاحترافي</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>اختيار الـ KPIs</span><span>Charts</span><span>Interactive Dashboard</span>
+            <span>Dynamic Charts</span><span>Slicers</span><span>Sparklines</span><span>تصميم احترافي</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">8</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Power Query for Excel</div>
+            <div class="module-title-ar">تنظيف وتحويل البيانات</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Import Data</span><span>Merge</span><span>Append</span><span>Unpivot</span>
+            <span>Group By</span><span>Custom Columns</span><span>M Basics</span><span>Refresh Automation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">9</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Automation</div>
+            <div class="module-title-ar">الأتمتة في Excel</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Macros</span><span>مقدمة في VBA</span><span>تسجيل الماكرو</span>
+            <span>كتابة أكواد بسيطة</span><span>User Forms</span><span>Buttons</span><span>Automation Projects</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-num">10</div>
+      <div class="module-body">
+        <div class="module-head">
+          <div>
+            <div class="module-title-en">Excel Professional Projects</div>
+            <div class="module-title-ar">مشاريع احترافية</div>
+          </div>
+          <div class="module-toggle">+</div>
+        </div>
+        <div class="module-topics">
+          <div class="topic-list">
+            <span>Financial Dashboard</span><span>Sales Dashboard</span><span>HR Dashboard</span>
+            <span>Inventory System</span><span>Accounting System</span><span>Attendance Tracker</span>
+            <span>KPI Dashboard</span><span>بناء مشروع متكامل من الصفر</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="track-cta">
+      <h3>خلّص المسار، وطلع بمشروع تحطه في الـ CV</h3>
+      <p>بعد الموديول العاشر هتكون قادر تبني Dashboard احترافي كامل من الصفر.</p>
+      <a href="excel-player.html" class="btn-primary">افتح المشغّل التجريبي ►</a>
+      <a href="index.html#notify" class="btn-primary" style="background:transparent; border:1px solid var(--border-strong); color:var(--text); margin-inline-start:10px;">اعرف أول ما المسار ينزل ←</a>
+    </div>
+
+  </div>
+</section>
 
 <script>
-const COURSES = [{"num": 1, "titleEn": "Excel Fundamentals", "titleAr": "الإكسيل للمبتدئين", "note": null, "sections": [{"title": "Introduction", "videos": [{"title": "تحميل Excel", "duration": 5}, {"title": "الفرق بين الإصدارات", "duration": 10}, {"title": "واجهة البرنامج", "duration": 5}, {"title": "إنشاء ملف جديد", "duration": 10}, {"title": "حفظ الملفات", "duration": 5}, {"title": "أنواع الملفات", "duration": 10}]}, {"title": "التعامل مع الـ Workbook", "videos": [{"title": "Workbook vs Worksheet", "duration": 12}, {"title": "التنقل بين الشيتات", "duration": 7}, {"title": "إضافة وحذف Sheet", "duration": 12}, {"title": "Rename / Move / Copy", "duration": 7}, {"title": "حماية الشيت", "duration": 12}]}, {"title": "إدخال البيانات", "videos": [{"title": "أنواع البيانات", "duration": 9}, {"title": "Auto Fill", "duration": 14}, {"title": "Flash Fill", "duration": 9}, {"title": "Copy & Paste", "duration": 14}, {"title": "Paste Special", "duration": 9}, {"title": "Undo / Redo", "duration": 14}]}, {"title": "التنسيق", "videos": [{"title": "تنسيق الأرقام", "duration": 6}, {"title": "تنسيق التاريخ", "duration": 11}, {"title": "تنسيق العملات", "duration": 6}, {"title": "الخطوط", "duration": 11}, {"title": "Borders", "duration": 6}, {"title": "Fill Colors", "duration": 11}, {"title": "Alignment", "duration": 6}, {"title": "Merge", "duration": 11}, {"title": "Wrap Text", "duration": 6}]}, {"title": "الطباعة", "videos": [{"title": "Page Layout", "duration": 13}, {"title": "Print Area", "duration": 8}, {"title": "Headers", "duration": 13}, {"title": "Footer", "duration": 8}, {"title": "Page Break", "duration": 13}]}, {"title": "أساسيات مهمة", "videos": [{"title": "Freeze Panes", "duration": 10}, {"title": "Hide Rows", "duration": 5}, {"title": "Group", "duration": 10}, {"title": "Zoom", "duration": 5}, {"title": "Find", "duration": 10}, {"title": "Replace", "duration": 5}, {"title": "Go To Special", "duration": 10}]}, {"title": "العمليات الحسابية والمراجع", "videos": [{"title": "العمليات الحسابية", "duration": 7}, {"title": "Relative Reference", "duration": 12}, {"title": "Absolute Reference", "duration": 7}, {"title": "Mixed Reference", "duration": 12}, {"title": "أخطاء المعادلات", "duration": 7}, {"title": "اختصارات الكيبورد", "duration": 12}, {"title": "مشروع صغير", "duration": 7}]}]}, {"num": 2, "titleEn": "Excel Formulas", "titleAr": "المعادلات والدوال", "note": null, "sections": [{"title": "Basic Math", "videos": [{"title": "SUM", "duration": 8}, {"title": "AVERAGE", "duration": 13}, {"title": "COUNT", "duration": 8}, {"title": "COUNTA", "duration": 13}, {"title": "MAX", "duration": 8}, {"title": "MIN", "duration": 13}, {"title": "ROUND", "duration": 8}, {"title": "ROUNDUP", "duration": 13}, {"title": "ROUNDDOWN", "duration": 8}, {"title": "MOD", "duration": 13}, {"title": "ABS", "duration": 8}, {"title": "INT", "duration": 13}]}, {"title": "Logical", "videos": [{"title": "IF", "duration": 5}, {"title": "IFS", "duration": 10}, {"title": "AND", "duration": 5}, {"title": "OR", "duration": 10}, {"title": "NOT", "duration": 5}, {"title": "SWITCH", "duration": 10}, {"title": "IFERROR", "duration": 5}, {"title": "IFNA", "duration": 10}]}, {"title": "Text", "videos": [{"title": "LEFT", "duration": 12}, {"title": "RIGHT", "duration": 7}, {"title": "MID", "duration": 12}, {"title": "LEN", "duration": 7}, {"title": "TEXT", "duration": 12}, {"title": "VALUE", "duration": 7}, {"title": "TEXTJOIN", "duration": 12}, {"title": "CONCAT", "duration": 7}, {"title": "CONCATENATE", "duration": 12}, {"title": "UPPER", "duration": 7}, {"title": "LOWER", "duration": 12}, {"title": "PROPER", "duration": 7}, {"title": "TRIM", "duration": 12}, {"title": "CLEAN", "duration": 7}, {"title": "SUBSTITUTE", "duration": 12}, {"title": "REPLACE", "duration": 7}, {"title": "SEARCH", "duration": 12}, {"title": "FIND", "duration": 7}, {"title": "EXACT", "duration": 12}]}, {"title": "Date", "videos": [{"title": "TODAY", "duration": 9}, {"title": "NOW", "duration": 14}, {"title": "YEAR", "duration": 9}, {"title": "MONTH", "duration": 14}, {"title": "DAY", "duration": 9}, {"title": "EDATE", "duration": 14}, {"title": "EOMONTH", "duration": 9}, {"title": "DATEDIF", "duration": 14}, {"title": "NETWORKDAYS", "duration": 9}, {"title": "WORKDAY", "duration": 14}, {"title": "WEEKDAY", "duration": 9}, {"title": "WEEKNUM", "duration": 14}]}, {"title": "تطبيق", "videos": [{"title": "Assignment", "duration": 6}, {"title": "Project", "duration": 11}]}]}, {"num": 3, "titleEn": "Data Management", "titleAr": "إدارة البيانات", "note": null, "sections": [{"title": "أدوات إدارة البيانات", "videos": [{"title": "Excel Tables", "duration": 11}, {"title": "Named Range", "duration": 6}, {"title": "Sort", "duration": 11}, {"title": "Advanced Sort", "duration": 6}, {"title": "Filter", "duration": 11}, {"title": "Advanced Filter", "duration": 6}, {"title": "Data Validation", "duration": 11}, {"title": "Dependent Drop Down", "duration": 6}, {"title": "Conditional Formatting", "duration": 11}, {"title": "Duplicate", "duration": 6}, {"title": "Remove Duplicate", "duration": 11}, {"title": "Data Cleaning", "duration": 6}, {"title": "Text to Columns", "duration": 11}, {"title": "Flash Fill", "duration": 6}, {"title": "Custom Format", "duration": 11}, {"title": "Protect Workbook", "duration": 6}, {"title": "Comments", "duration": 11}, {"title": "Notes", "duration": 6}, {"title": "Hyperlink", "duration": 11}, {"title": "Import CSV", "duration": 6}, {"title": "Import TXT", "duration": 11}, {"title": "Project كامل", "duration": 6}]}]}, {"num": 4, "titleEn": "Lookup Functions", "titleAr": "دوال البحث", "note": null, "sections": [{"title": "دوال البحث والمراجع", "videos": [{"title": "XLOOKUP", "duration": 14}, {"title": "XMATCH", "duration": 9}, {"title": "MATCH", "duration": 14}, {"title": "INDEX", "duration": 9}, {"title": "INDEX + MATCH", "duration": 14}, {"title": "INDEX + XMATCH", "duration": 9}, {"title": "VLOOKUP", "duration": 14}, {"title": "HLOOKUP", "duration": 9}, {"title": "OFFSET", "duration": 14}, {"title": "INDIRECT", "duration": 9}, {"title": "CHOOSE", "duration": 14}, {"title": "ADDRESS", "duration": 9}, {"title": "ROW", "duration": 14}, {"title": "COLUMN", "duration": 9}, {"title": "ROWS", "duration": 14}, {"title": "COLUMNS", "duration": 9}, {"title": "TRANSPOSE", "duration": 14}, {"title": "أمثلة محاسبية", "duration": 9}, {"title": "أمثلة HR", "duration": 14}, {"title": "أمثلة Sales", "duration": 9}, {"title": "Project", "duration": 14}]}]}, {"num": 5, "titleEn": "Dynamic Array Functions", "titleAr": "الدوال الديناميكية", "note": "من أهم الكورسات", "sections": [{"title": "الدوال الديناميكية الحديثة", "videos": [{"title": "FILTER", "duration": 7}, {"title": "UNIQUE", "duration": 12}, {"title": "SORT", "duration": 7}, {"title": "SORTBY", "duration": 12}, {"title": "SEQUENCE", "duration": 7}, {"title": "RANDARRAY", "duration": 12}, {"title": "LET", "duration": 7}, {"title": "LAMBDA", "duration": 12}, {"title": "TAKE", "duration": 7}, {"title": "DROP", "duration": 12}, {"title": "CHOOSECOLS", "duration": 7}, {"title": "CHOOSEROWS", "duration": 12}, {"title": "WRAPROWS", "duration": 7}, {"title": "WRAPCOLS", "duration": 12}, {"title": "TOCOL", "duration": 7}, {"title": "TOROW", "duration": 12}, {"title": "VSTACK", "duration": 7}, {"title": "HSTACK", "duration": 12}, {"title": "EXPAND", "duration": 7}, {"title": "REDUCE", "duration": 12}, {"title": "SCAN", "duration": 7}, {"title": "MAP", "duration": 12}, {"title": "BYROW", "duration": 7}, {"title": "BYCOL", "duration": 12}, {"title": "MAKEARRAY", "duration": 7}, {"title": "مشروع Dashboard بدون Pivot", "duration": 12}]}]}, {"num": 6, "titleEn": "Pivot Table & Analysis", "titleAr": "الجداول المحورية والتحليل", "note": null, "sections": [{"title": "Pivot & Analysis", "videos": [{"title": "Pivot Table", "duration": 10}, {"title": "Calculated Field", "duration": 5}, {"title": "Grouping", "duration": 10}, {"title": "Timeline", "duration": 5}, {"title": "Slicer", "duration": 10}, {"title": "Pivot Chart", "duration": 5}, {"title": "GETPIVOTDATA", "duration": 10}, {"title": "Power Pivot Introduction", "duration": 5}, {"title": "Data Model", "duration": 10}, {"title": "Relationships", "duration": 5}, {"title": "What If Analysis", "duration": 10}, {"title": "Goal Seek", "duration": 5}, {"title": "Scenario Manager", "duration": 10}, {"title": "Solver", "duration": 5}, {"title": "Forecast Sheet", "duration": 10}, {"title": "Project مالي كامل", "duration": 5}]}]}, {"num": 7, "titleEn": "Dashboards", "titleAr": "تصميم الداشبورد", "note": "أفضل كورس في المنصة", "sections": [{"title": "تصميم Dashboard", "videos": [{"title": "تصميم Dashboard", "duration": 13}, {"title": "UI", "duration": 8}, {"title": "UX", "duration": 13}, {"title": "Colors", "duration": 8}, {"title": "Icons", "duration": 13}, {"title": "KPIs", "duration": 8}, {"title": "Cards", "duration": 13}, {"title": "Dynamic Charts", "duration": 8}, {"title": "Interactive Charts", "duration": 13}, {"title": "Speedometer", "duration": 8}, {"title": "Thermometer", "duration": 13}, {"title": "Maps", "duration": 8}, {"title": "Timeline", "duration": 13}, {"title": "Navigation", "duration": 8}, {"title": "Dark Dashboard", "duration": 13}, {"title": "Mobile Dashboard", "duration": 8}]}, {"title": "مشاريع", "videos": [{"title": "Sales Dashboard", "duration": 10}, {"title": "HR Dashboard", "duration": 5}, {"title": "Finance Dashboard", "duration": 10}, {"title": "Project Dashboard", "duration": 5}, {"title": "CEO Dashboard", "duration": 10}]}]}, {"num": 8, "titleEn": "Power Query", "titleAr": "تنظيف وتحويل البيانات", "note": null, "sections": [{"title": "Power Query من الصفر", "videos": [{"title": "Import", "duration": 6}, {"title": "CSV", "duration": 11}, {"title": "Folder", "duration": 6}, {"title": "PDF", "duration": 11}, {"title": "Web", "duration": 6}, {"title": "Merge", "duration": 11}, {"title": "Append", "duration": 6}, {"title": "Pivot", "duration": 11}, {"title": "Unpivot", "duration": 6}, {"title": "Split", "duration": 11}, {"title": "Extract", "duration": 6}, {"title": "Replace", "duration": 11}, {"title": "Fill", "duration": 6}, {"title": "Transpose", "duration": 11}, {"title": "Parameters", "duration": 6}, {"title": "Custom Column", "duration": 11}, {"title": "Conditional Column", "duration": 6}, {"title": "M Language Basics", "duration": 11}, {"title": "Refresh", "duration": 6}, {"title": "Automation", "duration": 11}, {"title": "Project كامل", "duration": 6}]}]}, {"num": 9, "titleEn": "VBA & Automation", "titleAr": "الأتمتة والبرمجة", "note": null, "sections": [{"title": "VBA Basics", "videos": [{"title": "Developer Tab", "duration": 9}, {"title": "Macro Recorder", "duration": 14}, {"title": "Relative Macro", "duration": 9}, {"title": "VBA Editor", "duration": 14}, {"title": "Variables", "duration": 9}, {"title": "Loops", "duration": 14}, {"title": "Conditions", "duration": 9}, {"title": "MsgBox", "duration": 14}, {"title": "InputBox", "duration": 9}, {"title": "Events", "duration": 14}, {"title": "Buttons", "duration": 9}, {"title": "Forms", "duration": 14}, {"title": "File Automation", "duration": 9}, {"title": "Email Automation", "duration": 14}, {"title": "Workbook Automation", "duration": 9}, {"title": "Error Handling", "duration": 14}]}, {"title": "مشاريع تطبيقية", "videos": [{"title": "5 مشاريع كاملة", "duration": 6}]}]}, {"num": 10, "titleEn": "Excel Expert Projects", "titleAr": "مشاريع احترافية متكاملة", "note": "أهم كورس في المنصة — بدون شرح دوال، كله Projects", "sections": [{"title": "مشاريع احترافية", "videos": [{"title": "نظام مبيعات كامل", "duration": 12}, {"title": "نظام مخازن", "duration": 7}, {"title": "نظام حضور وانصراف", "duration": 12}, {"title": "نظام رواتب", "duration": 7}, {"title": "نظام محاسبة", "duration": 12}, {"title": "نظام متابعة المشاريع", "duration": 7}, {"title": "Dashboard تنفيذي", "duration": 12}, {"title": "HR Dashboard", "duration": 7}, {"title": "Financial Dashboard", "duration": 12}, {"title": "Project Management System", "duration": 7}, {"title": "CRM بسيط", "duration": 12}, {"title": "نظام متابعة العملاء", "duration": 7}, {"title": "Invoice System", "duration": 12}, {"title": "Cash Flow Dashboard", "duration": 7}, {"title": "Budget Planner", "duration": 12}]}]}];
+  document.querySelectorAll('.module').forEach(mod => {
+    const toggle = mod.querySelector('.module-toggle');
+    const head = mod.querySelector('.module-head');
+    const courseNum = mod.querySelector('.module-num').textContent.trim();
 
-// Flatten into ordered list with ids
-const FLAT = [];
-COURSES.forEach((c, ci) => {
-  c.sections.forEach((s, si) => {
-    s.videos.forEach((v, vi) => {
-      FLAT.push({ id: `c${ci}-s${si}-v${vi}`, ci, si, vi, title: v.title, duration: v.duration,
-                  courseTitle: c.titleAr, sectionTitle: s.title, courseNum: c.num });
+    // The + button only expands/collapses the topics list, doesn't navigate
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mod.classList.toggle('open');
+    });
+
+    // Clicking anywhere else on the row goes straight to the videos
+    head.addEventListener('click', () => {
+      window.location.href = `excel-player.html?course=${courseNum}`;
     });
   });
-});
-
-const STORAGE_KEY = 'excelTrackProgress';
-function getDone(){ try{ return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }catch(e){ return new Set(); } }
-function setDone(set){ localStorage.setItem(STORAGE_KEY, JSON.stringify([...set])); }
-let done = getDone();
-
-let currentCourseIdx = 0;
-let currentFlatIdx = 0;
-
-function flatIndexOf(ci, si, vi){
-  return FLAT.findIndex(f => f.ci===ci && f.si===si && f.vi===vi);
-}
-
-function renderTabs(){
-  const wrap = document.getElementById('tabs');
-  wrap.innerHTML = '';
-  COURSES.forEach((c, ci) => {
-    const total = c.sections.reduce((a,s)=>a+s.videos.length,0);
-    const doneCount = c.sections.reduce((a,s,si)=>a+s.videos.filter((v,vi)=>done.has(`c${ci}-s${si}-v${vi}`)).length,0);
-    const btn = document.createElement('button');
-    btn.className = 'tab' + (ci===currentCourseIdx ? ' active':'') + (doneCount===total ? ' done':'');
-    btn.textContent = c.num;
-    btn.title = c.titleAr;
-    btn.onclick = () => { currentCourseIdx = ci; renderTabs(); renderSidebarHead(); renderVideoList(); };
-    wrap.appendChild(btn);
-  });
-}
-
-function renderSidebarHead(){
-  const c = COURSES[currentCourseIdx];
-  const total = c.sections.reduce((a,s)=>a+s.videos.length,0);
-  const totalMin = c.sections.reduce((a,s)=>a+s.videos.reduce((b,v)=>b+v.duration,0),0);
-  const head = document.getElementById('sidebarHead');
-  head.innerHTML = `
-    <h3>Course ${c.num} — ${c.titleEn}</h3>
-    <div class="meta">${c.titleAr} · ${total} فيديو · ~${Math.round(totalMin/60*10)/10} ساعة</div>
-    ${c.note ? `<div class="note">${c.note}</div>` : ''}
-  `;
-}
-
-function renderVideoList(){
-  const c = COURSES[currentCourseIdx];
-  const wrap = document.getElementById('videoList');
-  wrap.innerHTML = '';
-  c.sections.forEach((s, si) => {
-    const st = document.createElement('div');
-    st.className = 'section-title';
-    st.textContent = s.title;
-    wrap.appendChild(st);
-    s.videos.forEach((v, vi) => {
-      const id = `c${currentCourseIdx}-s${si}-v${vi}`;
-      const row = document.createElement('div');
-      const isCurrent = FLAT[currentFlatIdx] && FLAT[currentFlatIdx].id === id;
-      row.className = 'video-row' + (isCurrent ? ' current':'') + (done.has(id) ? ' done':'');
-      row.innerHTML = `
-        <input type="checkbox" ${done.has(id)?'checked':''} data-id="${id}">
-        <span class="vtitle">${v.title}</span>
-        <span class="vdur">${v.duration} د</span>
-      `;
-      row.querySelector('input').addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleDone(id);
-      });
-      row.addEventListener('click', () => {
-        currentFlatIdx = flatIndexOf(currentCourseIdx, si, vi);
-        renderAll();
-      });
-      wrap.appendChild(row);
-    });
-  });
-}
-
-function toggleDone(id){
-  if(done.has(id)) done.delete(id); else done.add(id);
-  setDone(done);
-  renderAll();
-}
-
-function renderMain(){
-  const f = FLAT[currentFlatIdx];
-  if(!f) return;
-  document.getElementById('breadcrumb').innerHTML = `Course ${f.courseNum} — <b>${f.courseTitle}</b> / ${f.sectionTitle}`;
-  document.getElementById('videoTitle').textContent = f.title;
-  document.getElementById('videoDur').textContent = `المدة التجريبية: ${f.duration} دقيقة`;
-
-  const markBtn = document.getElementById('markBtn');
-  const isDone = done.has(f.id);
-  markBtn.className = 'mark-btn' + (isDone ? ' done':'');
-  markBtn.textContent = isDone ? '✓ اتشاف' : '✓ علّم كمشاهَد';
-  markBtn.onclick = () => toggleDone(f.id);
-
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const prev = FLAT[currentFlatIdx - 1];
-  const next = FLAT[currentFlatIdx + 1];
-
-  if(prev){
-    prevBtn.classList.remove('disabled');
-    document.getElementById('prevTitle').textContent = prev.title;
-    prevBtn.onclick = () => { currentFlatIdx--; currentCourseIdx = FLAT[currentFlatIdx].ci; renderAll(); };
-  } else {
-    prevBtn.classList.add('disabled');
-    document.getElementById('prevTitle').textContent = '—';
-  }
-  if(next){
-    nextBtn.classList.remove('disabled');
-    document.getElementById('nextTitle').textContent = next.title;
-    nextBtn.onclick = () => { done.add(f.id); setDone(done); currentFlatIdx++; currentCourseIdx = FLAT[currentFlatIdx].ci; renderAll(); };
-  } else {
-    nextBtn.classList.add('disabled');
-    document.getElementById('nextTitle').textContent = '—';
-  }
-
-  // course progress
-  const c = COURSES[f.ci];
-  const total = c.sections.reduce((a,s)=>a+s.videos.length,0);
-  const doneCount = c.sections.reduce((a,s,si)=>a+s.videos.filter((v,vi)=>done.has(`c${f.ci}-s${si}-v${vi}`)).length,0);
-  document.getElementById('courseProgressTxt').textContent = `تقدمك في Course ${c.num}: ${total? Math.round(doneCount/total*100):0}% مكتمل (${doneCount} من ${total} فيديو)`;
-  document.getElementById('courseProgressBar').style.width = (total? (doneCount/total*100):0) + '%';
-}
-
-function renderOverall(){
-  const total = FLAT.length;
-  const doneCount = FLAT.filter(f=>done.has(f.id)).length;
-  document.getElementById('overallLabel').textContent = `${total? Math.round(doneCount/total*100):0}% من المسار مكتمل (${doneCount}/${total})`;
-  document.getElementById('overallBar').style.width = (total? (doneCount/total*100):0) + '%';
-}
-
-function renderAll(){
-  renderTabs();
-  renderSidebarHead();
-  renderVideoList();
-  renderMain();
-  renderOverall();
-}
-
-// If arriving from the curriculum page with ?course=N, jump straight to that course
-const urlParams = new URLSearchParams(window.location.search);
-const requestedCourse = parseInt(urlParams.get('course'), 10);
-if (requestedCourse) {
-  const idx = COURSES.findIndex(c => c.num === requestedCourse);
-  if (idx !== -1) {
-    currentCourseIdx = idx;
-    currentFlatIdx = flatIndexOf(idx, 0, 0);
-  }
-}
-
-renderAll();
+  // Open the first module by default so visitors see the structure immediately
+  document.querySelector('.module').classList.add('open');
 </script>
 
 </body>
